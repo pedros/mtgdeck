@@ -1,3 +1,5 @@
+from io import StringIO
+from xml.etree import ElementTree
 from pyparsing import (Word, nums, restOfLine, Group, empty,
                        OneOrMore, ZeroOrMore, Optional,
                        cppStyleComment, nestedExpr, CaselessKeyword,
@@ -16,7 +18,7 @@ class MtgDeckAutoDecoder(object):
         for cls in MtgDeckAutoDecoder.__subclasses__():
             try:
                 return cls().loads(string)
-            except ParseException as e:
+            except (ParseException, AssertionError) as e:
                 exceptions.append(cls)
         raise MtgDeckDecodeError(exceptions)
 
@@ -48,7 +50,7 @@ class MtgDeckAutoDecoder(object):
         return section, card, setid[0] if len(setid) else None, int(count)
 
     def _decode(self, src):
-        raise NotImplemented
+        raise NotImplementedError('This method must be implemented')
 
 
 class MtgDeckTextDecoder(MtgDeckAutoDecoder):
@@ -61,8 +63,8 @@ class MtgDeckTextDecoder(MtgDeckAutoDecoder):
     Entry = Group(Count + Card)
     Deck = OneOrMore(Comment | Section | Entry).ignore(Comment)
 
-    def _decode(self, src):
-        entries = self.Deck.parseString(src)
+    def _decode(self, string):
+        entries = self.Deck.parseString(string)
         section = 'mainboard'
         for entry in entries:
             try:
@@ -82,8 +84,8 @@ class MtgDeckMagicWorkstationDecoder(MtgDeckAutoDecoder):
     Entry = Group(ZeroOrMore(Section) + Count + Optional(Set) + Card)
     Deck = OneOrMore(Comment | Entry).ignore(Comment)
 
-    def _decode(self, src):
-        entries = self.Deck.parseString(src)
+    def _decode(self, string):
+        entries = self.Deck.parseString(string)
         for entry in entries:
             count = 0
             card = ''
@@ -111,5 +113,29 @@ class MtgDeckMagicWorkstationDecoder(MtgDeckAutoDecoder):
                    setid[0] if len(setid) else None)
 
 
-class XMLMtgDeckDecoder(object):
-    pass
+class MtgDeckOCTGNDecoder(MtgDeckAutoDecoder):
+    def _decode(self, string):
+        fp = StringIO(string)
+        tree = ElementTree.parse(fp)
+
+        assert(tree.getroot().tag == 'deck')
+
+        for section in tree.findall('section'):
+            for entry in section.findall('card'):
+                count = entry.attrib['qty']
+                card = entry.text
+                yield (count, card, section.attrib['name'], None)
+
+
+class MtgDeckCockatriceDecoder(MtgDeckAutoDecoder):
+    def _decode(self, string):
+        fp = StringIO(string)
+        tree = ElementTree.parse(fp)
+
+        assert(tree.getroot().tag == 'cockatrice_deck')
+
+        for section in tree.findall('zone'):
+            for entry in section.findall('card'):
+                count = entry.attrib['number']
+                card = entry.attrib['name']
+                yield (count, card, section.attrib['name'], None)
