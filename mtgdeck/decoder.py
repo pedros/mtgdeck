@@ -1,34 +1,20 @@
+from abc import ABCMeta, abstractmethod
 from io import StringIO
 from xml.etree import ElementTree
-from pyparsing import (Word, nums, restOfLine, Group, empty,
-                       OneOrMore, ZeroOrMore, Optional,
-                       cppStyleComment, nestedExpr, CaselessKeyword,
-                       ParseException)
+from pyparsing import (CaselessKeyword, Group, OneOrMore, Optional,
+                       ParseException, Word, ZeroOrMore, cppStyleComment,
+                       empty, nestedExpr, nums, restOfLine)
 
 
-class MtgDeckDecodeError(ParseException):
+class MtgDeckDecodeError(Exception):
     def __str__(self):
         return 'Could not determine encoding format: {}'.format(self.args)
 
 
-class MtgDeckAutoDecoder(object):
-    @staticmethod
-    def _loads(string):
-        exceptions = []
-        for cls in MtgDeckAutoDecoder.__subclasses__():
-            try:
-                return cls().loads(string)
-            except (ParseException, AssertionError) as e:
-                exceptions.append(cls)
-        raise MtgDeckDecodeError(exceptions)
+class MtgDeckBaseDecoder(metaclass=ABCMeta):
 
-    def load(self, fp):
-        string = fp.read()
-        return self.loads(string)
-
-    def loads(self, string):
-        src = string.replace('\r\n', '\n').replace('\r', '\n')
-        return self._gather(map(self._format, self._decode(src)))
+    @abstractmethod
+    def _decode(self, string): pass
 
     def _gather(self, entries):
         deck = {}
@@ -45,15 +31,33 @@ class MtgDeckAutoDecoder(object):
 
         return deck
 
-    def _format(self, entry):
-        count, card, section, *setid = entry
-        return section, card, setid[0] if len(setid) else None, int(count)
+    def load(self, fp):
+        return self.loads(fp.read())
 
-    def _decode(self, src):
-        raise NotImplementedError('This method must be implemented')
+    def loads(self, string):
+        src = string.replace('\r\n', '\n').replace('\r', '\n')
+        return self._gather(self._decode(src))
 
 
-class MtgDeckTextDecoder(MtgDeckAutoDecoder):
+class MtgDeckAutoDecoder(MtgDeckBaseDecoder):
+    def load(self, fp):
+        return self.loads(fp.read())
+
+    def loads(self, string):
+        exceptions = []
+        for cls in MtgDeckBaseDecoder.__subclasses__():
+            if cls == self.__class__:
+                continue
+            try:
+                return cls().loads(string)
+            except (ParseException, AssertionError) as e:
+                exceptions.append(cls)
+        raise MtgDeckDecodeError(exceptions)
+
+    def _decode(self, string): pass
+
+
+class MtgDeckTextDecoder(MtgDeckBaseDecoder):
     Comment = cppStyleComment
     Section = (CaselessKeyword('sideboard') |
                CaselessKeyword('mainboard') +
@@ -72,10 +76,10 @@ class MtgDeckTextDecoder(MtgDeckAutoDecoder):
             except ValueError as _:
                 section = entry
             finally:
-                yield (count, card, section)
+                yield (section, card, None, int(count))
 
 
-class MtgDeckMagicWorkstationDecoder(MtgDeckAutoDecoder):
+class MtgDeckMagicWorkstationDecoder(MtgDeckBaseDecoder):
     Comment = cppStyleComment
     Section = CaselessKeyword('sb:')
     Count = Word(nums)
@@ -109,11 +113,12 @@ class MtgDeckMagicWorkstationDecoder(MtgDeckAutoDecoder):
             elif n == 4:
                 _, count, setid, card = entry
 
-            yield (count, card, section,
-                   setid[0] if len(setid) else None)
+            yield (section, card,
+                   setid[0] if len(setid) else None,
+                   int(count))
 
 
-class MtgDeckOCTGNDecoder(MtgDeckAutoDecoder):
+class MtgDeckOCTGNDecoder(MtgDeckBaseDecoder):
     def _decode(self, string):
         fp = StringIO(string)
         tree = ElementTree.parse(fp)
@@ -124,10 +129,10 @@ class MtgDeckOCTGNDecoder(MtgDeckAutoDecoder):
             for entry in section.findall('card'):
                 count = entry.attrib['qty']
                 card = entry.text
-                yield (count, card, section.attrib['name'], None)
+                yield (section.attrib['name'], card, None, int(count))
 
 
-class MtgDeckCockatriceDecoder(MtgDeckAutoDecoder):
+class MtgDeckCockatriceDecoder(MtgDeckBaseDecoder):
     def _decode(self, string):
         fp = StringIO(string)
         tree = ElementTree.parse(fp)
@@ -138,4 +143,4 @@ class MtgDeckCockatriceDecoder(MtgDeckAutoDecoder):
             for entry in section.findall('card'):
                 count = entry.attrib['number']
                 card = entry.attrib['name']
-                yield (count, card, section.attrib['name'], None)
+                yield (section.attrib['name'], card, None, int(count))
