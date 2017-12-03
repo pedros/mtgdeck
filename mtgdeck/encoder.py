@@ -1,11 +1,15 @@
 from abc import ABCMeta, abstractmethod
+from xml.etree import ElementTree
 
 
 class MtgDeckEncodeError(object):
     pass
 
 
-class MtgDeckBaseEncoder(metaclass=ABCMeta):
+class MtgDeckEncoder(metaclass=ABCMeta):
+    """Abstract base class for encoders.
+
+    Only one method must be implemented: ``_encode``"""
 
     @abstractmethod
     def _encode(self, obj): pass
@@ -14,7 +18,7 @@ class MtgDeckBaseEncoder(metaclass=ABCMeta):
         for section, cards in obj.items():
             for name, attrs in cards.items():
                 for setid, count in attrs.items():
-                    yield (count, name, section, setid)
+                    yield (section, name, setid, count)
 
     def dump(self, obj, fp):
         fp.write(self.dumps(obj))
@@ -23,7 +27,20 @@ class MtgDeckBaseEncoder(metaclass=ABCMeta):
         return self._encode(obj)
 
 
-class MtgDeckTextEncoder(MtgDeckBaseEncoder):
+class MtgDeckTextEncoder(MtgDeckEncoder):
+    """Encoding class for text formats.
+
+    This is the format that MTGO outputs. Each line has the form 'quantity
+    name'. An optional line containing the word 'Sideboard' indicates that
+    subsequent entries are sideboard material.
+
+    Examples
+    --------
+    >>> import mtgdeck.encoder
+    >>> mtgdeck.encoder.MtgDeckTextEncoder()
+    <mtgdeck.encoder.MtgDeckTextEncoder...>
+    """
+
     def _encode(self, obj):
         out = ''
         for section, cards in obj.items():
@@ -35,10 +52,10 @@ class MtgDeckTextEncoder(MtgDeckBaseEncoder):
         return out
 
 
-class MtgDeckMagicWorkstationEncoder(MtgDeckBaseEncoder):
+class MtgDeckMagicWorkstationEncoder(MtgDeckEncoder):
     def _encode(self, obj):
         out = ''
-        for count, name, section, setid in self._scatter(obj):
+        for section, name, setid, count in self._scatter(obj):
             if setid:
                 out += '{}: {} [{}] {}\n'.format(section, count, setid, name)
             else:
@@ -46,9 +63,9 @@ class MtgDeckMagicWorkstationEncoder(MtgDeckBaseEncoder):
         return out
 
 
-class MtgDeckOCTGNEncoder(MtgDeckBaseEncoder):
-    def _encode(self, string): raise NotImplementedError
+class MtgDeckOCTGNEncoder(MtgDeckEncoder):
+    def _encode(self, string): raise NotImplementedError(self)
 
 
-class MtgDeckCockatriceEncoder(MtgDeckBaseEncoder):
-    def _encode(self, string): raise NotImplementedError
+class MtgDeckCockatriceEncoder(MtgDeckEncoder):
+    def _encode(self, string): raise NotImplementedError(self)
