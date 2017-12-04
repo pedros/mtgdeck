@@ -1,5 +1,20 @@
 """Public API entry-point for mtgdeck"""
-__version__ = '0.0.1'
+
+from .decoder import (MtgDeckDecodeError,
+                      MtgDeckAutoDecoder,
+                      MtgDeckTextDecoder,
+                      MtgDeckMagicWorkstationDecoder,
+                      MtgDeckOCTGNDecoder,
+                      MtgDeckCockatriceDecoder)
+
+from .encoder import (MtgDeckEncodeError,
+                      MtgDeckTextEncoder,
+                      MtgDeckMagicWorkstationEncoder,
+                      MtgDeckOCTGNEncoder,
+                      MtgDeckCockatriceEncoder)
+
+
+__version__ = '0.1'
 __author__ = 'Pedro Silva <psilva+git@pedrosilva.pt>'
 __all__ = [
     'load', 'loads',
@@ -16,19 +31,6 @@ __all__ = [
     'MtgDeckOCTGNEncoder',
     'MtgDeckCockatriceEncoder',
 ]
-
-from .decoder import (MtgDeckDecodeError,
-                      MtgDeckAutoDecoder,
-                      MtgDeckTextDecoder,
-                      MtgDeckMagicWorkstationDecoder,
-                      MtgDeckOCTGNDecoder,
-                      MtgDeckCockatriceDecoder)
-
-from .encoder import (MtgDeckEncodeError,
-                      MtgDeckTextEncoder,
-                      MtgDeckMagicWorkstationEncoder,
-                      MtgDeckOCTGNEncoder,
-                      MtgDeckCockatriceEncoder)
 
 
 def load(fp, cls=MtgDeckAutoDecoder):
