@@ -49,10 +49,10 @@ class MtgDeckAutoDecoder(MtgDeckDecoder):
             if cls == self.__class__:
                 continue
             try:
-                print('trying', cls)
                 return cls().loads(string)
-            except (ParseException, AssertionError) as e:
-                print('failed', cls)
+            except (ParseException,
+                    AssertionError,
+                    ElementTree.ParseError) as e:
                 exceptions.append(cls)
         raise MtgDeckDecodeError(exceptions)
 
@@ -86,7 +86,7 @@ class MtgDeckMagicWorkstationDecoder(MtgDeckDecoder):
         self.Section = Keyword('SB:')
         self.Count = Word(nums)
         self.Set = nestedExpr('[', ']')
-        self.Card = restOfLine
+        self.Card = empty + restOfLine
         self.Entry = Group(Optional(self.Section) +
                            self.Count +
                            Optional(self.Set) +
