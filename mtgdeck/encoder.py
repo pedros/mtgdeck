@@ -9,7 +9,9 @@ class MtgDeckEncodeError(object):
 class MtgDeckEncoder(metaclass=ABCMeta):
     """Abstract base class for encoders.
 
-    Only one method must be implemented: ``_encode``"""
+    Only one method must be implemented: ``_encode``
+
+    """
 
     @abstractmethod
     def _encode(self, obj): pass
@@ -28,17 +30,12 @@ class MtgDeckEncoder(metaclass=ABCMeta):
 
 
 class MtgDeckTextEncoder(MtgDeckEncoder):
-    """Encoding class for text formats.
+    """Encoding class for the simple text format.
 
     This is the format that MTGO outputs. Each line has the form 'quantity
     name'. An optional line containing the word 'Sideboard' indicates that
     subsequent entries are sideboard material.
 
-    Examples
-    --------
-    >>> import mtgdeck.encoder
-    >>> mtgdeck.encoder.MtgDeckTextEncoder()
-    <mtgdeck.encoder.MtgDeckTextEncoder...>
     """
 
     def _encode(self, obj):
@@ -53,6 +50,12 @@ class MtgDeckTextEncoder(MtgDeckEncoder):
 
 
 class MtgDeckMagicWorkstationEncoder(MtgDeckEncoder):
+    """Encoding class for the Magic Workstation format.
+
+    Each line has the form '[SB: ]quantity [SETID ]name', '[]' meaning optional
+    fields.
+
+    """
     def _encode(self, obj):
         out = ''
         for section, name, setid, count in self._scatter(obj):
@@ -64,8 +67,44 @@ class MtgDeckMagicWorkstationEncoder(MtgDeckEncoder):
 
 
 class MtgDeckOCTGNEncoder(MtgDeckEncoder):
-    def _encode(self, string): raise NotImplementedError(self)
+    """Encoding class for the OCTGN Deck Creator format.
+
+    """
+    def _encode(self, obj):
+        root = ElementTree.Element('deck')
+        sections = {}
+        for section, name, setid, count in self._scatter(obj):
+
+            if section not in sections:
+                sections[section] = ElementTree.SubElement(root, 'section',
+                                                           {'name': section})
+
+            card = ElementTree.SubElement(sections[section], 'card',
+                                          {'qty': str(count),
+                                           'name': name})
+
+            if setid:
+                ElementTree.SubElement(card, 'property',
+                                       {'name': 'setid', 'value': setid})
+
+        return ElementTree.tostring(root, encoding='unicode')
 
 
 class MtgDeckCockatriceEncoder(MtgDeckEncoder):
-    def _encode(self, string): raise NotImplementedError(self)
+    """Encoding class for the Cockatrice format.
+
+    """
+    def _encode(self, obj):
+        root = ElementTree.Element('cockatrice')
+        sections = {}
+        for section, name, setid, count in self._scatter(obj):
+
+            if section not in sections:
+                sections[section] = ElementTree.SubElement(root, 'zone',
+                                                           {'name': section})
+
+            ElementTree.SubElement(sections[section], 'card',
+                                   {'number': str(count),
+                                    'name': name})
+
+        return ElementTree.tostring(root, encoding='unicode')
