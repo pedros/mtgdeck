@@ -4,6 +4,9 @@
 .. image:: https://ci.appveyor.com/api/projects/status/1afabyk0mdbrwsd7?svg=true
    :target: https://ci.appveyor.com/project/pedros/mtgdeck
 
+.. image:: https://codecov.io/gh/pedros/mtgdeck/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/pedros/mtgdeck
+
 mtgdeck
 =======
 
