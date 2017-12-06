@@ -8,7 +8,7 @@ from pyparsing import (Group, Keyword, OneOrMore, Optional, ParseException,
 
 class MtgDeckDecodeError(Exception):
     def __str__(self):
-        return 'Could not determine encoding format: {}'.format(self.args)
+        return 'Could not determine decoding format: {}'.format(self.args)
 
 
 class MtgDeckDecoder(metaclass=ABCMeta):

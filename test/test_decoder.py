@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import patch
-
 from io import StringIO
+
 from mtgdeck.decoder import (MtgDeckDecodeError,
                              MtgDeckDecoder,
                              MtgDeckAutoDecoder,
@@ -14,7 +14,7 @@ class TestMtgDeckDecodeError(TestCase):
         try:
             raise MtgDeckDecodeError('a')
         except MtgDeckDecodeError as e:
-            self.assertEqual("Could not determine encoding format: ('a',)",
+            self.assertEqual("Could not determine decoding format: ('a',)",
                              str(e))
 
 

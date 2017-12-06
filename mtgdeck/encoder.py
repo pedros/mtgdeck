@@ -2,8 +2,9 @@ from abc import ABCMeta, abstractmethod
 from xml.etree import ElementTree
 
 
-class MtgDeckEncodeError(object):
-    pass
+class MtgDeckEncodeError(Exception):
+    def __str__(self):
+        return 'Could not determine encoding format: {}'.format(self.args)
 
 
 class MtgDeckEncoder(metaclass=ABCMeta):
@@ -14,7 +15,8 @@ class MtgDeckEncoder(metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def _encode(self, obj): pass
+    def _encode(self, obj):
+        return ''
 
     def _scatter(self, obj):
         for section, cards in obj.items():
