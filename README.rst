@@ -15,8 +15,8 @@ MTG decklist decoder and encoder library and application
 What is it?
 -----------
 
-``mtgdeck`` is both an application and a (Python 3) library for decoding and
-encoding various decklist formats for Magic: The Gathering.
+``mtgdeck`` is an application and library for decoding and encoding various
+decklist formats for Magic: The Gathering.
 
 
 Usage
@@ -29,4 +29,4 @@ Usage
    mtgdeck < input.mws > output.txt
 
    # Decode a Cockatrice decklist and encode to OCTGN, specifying files
-   mtgdeck -d cod -e octgn -i input.cod -i output.o8d
+   mtgdeck -d cod -e octgn -i input.cod -o output.o8d
