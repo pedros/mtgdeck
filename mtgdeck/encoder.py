@@ -18,12 +18,6 @@ class MtgDeckEncoder(metaclass=ABCMeta):
     def _encode(self, obj):
         return ''
 
-    def _scatter(self, obj):
-        for section, cards in obj.items():
-            for name, attrs in cards.items():
-                for setid, count in attrs.items():
-                    yield (section, name, setid, count)
-
     def dump(self, obj, fp):
         fp.write(self.dumps(obj))
 
@@ -42,12 +36,11 @@ class MtgDeckTextEncoder(MtgDeckEncoder):
 
     def _encode(self, obj):
         out = ''
-        for section, cards in obj.items():
-            # if section == 'side':
-            out += '{}\n'.format(section)
-            for name, attrs in cards.items():
-                for setid, count in attrs.items():
-                    out += '{} {}\n'.format(count, name)
+        for name, attrs in obj:
+            if 'section' in attrs:
+                if attrs['section'] == 'Sideboard':
+                    out += 'Sideboard\n'
+            out += '{} {}\n'.format(attrs['count'], name)
         return out
 
 
@@ -60,11 +53,20 @@ class MtgDeckMagicWorkstationEncoder(MtgDeckEncoder):
     """
     def _encode(self, obj):
         out = ''
-        for section, name, setid, count in self._scatter(obj):
-            if setid:
-                out += '{}: {} [{}] {}\n'.format(section, count, setid, name)
-            else:
-                out += '{}: {} {}\n'.format(section, count, name)
+
+        for name, attrs in obj:
+            entries = []
+            if 'section' in attrs:
+                entries.append('SB:')
+
+            entries.append(str(attrs['count']))
+
+            if 'setid' in attrs:
+                entries.append('[{}]'.format(attrs['setid']))
+
+            entries.append('{}\n'.format(name))
+            out += ' '.join(entries)
+
         return out
 
 
@@ -75,19 +77,21 @@ class MtgDeckOCTGNEncoder(MtgDeckEncoder):
     def _encode(self, obj):
         root = ElementTree.Element('deck')
         sections = {}
-        for section, name, setid, count in self._scatter(obj):
 
+        for name, attrs in obj:
+            section = attrs.get('section', 'Main')
+            setid = attrs.get('setid', None)
+            count = attrs['count']
             if section not in sections:
                 sections[section] = ElementTree.SubElement(root, 'section',
                                                            {'name': section})
 
-            card = ElementTree.SubElement(sections[section], 'card',
-                                          {'qty': str(count),
-                                           'name': name})
-
+            attrs = {'qty': str(count)}
             if setid:
-                ElementTree.SubElement(card, 'property',
-                                       {'name': 'setid', 'value': setid})
+                attrs['setid'] = setid
+
+            card = ElementTree.SubElement(sections[section], 'card', attrs)
+            card.text = name
 
         return ElementTree.tostring(root, encoding='unicode')
 
@@ -97,16 +101,22 @@ class MtgDeckCockatriceEncoder(MtgDeckEncoder):
 
     """
     def _encode(self, obj):
-        root = ElementTree.Element('cockatrice')
+        root = ElementTree.Element('cockatrice_deck')
         sections = {}
-        for section, name, setid, count in self._scatter(obj):
+
+        for name,  attrs in obj:
+            section = attrs.get('section', 'main')
+            setid = attrs.get('setid', None)
+            count = attrs['count']
 
             if section not in sections:
                 sections[section] = ElementTree.SubElement(root, 'zone',
                                                            {'name': section})
 
-            ElementTree.SubElement(sections[section], 'card',
-                                   {'number': str(count),
-                                    'name': name})
+            attrs = {'number': str(count), 'name': name}
+            if setid:
+                attrs['setid'] = setid
+
+            ElementTree.SubElement(sections[section], 'card', attrs)
 
         return ElementTree.tostring(root, encoding='unicode')
