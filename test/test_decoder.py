@@ -26,25 +26,18 @@ class TestMtgDeckDecoder(TestCase):
     def test_MtgDeckDecoder(self):
         self.assertRaises(TypeError, MtgDeckDecoder)
 
-    def test__gather(self):
-        entries = [('section', 'card', 'setid', 1),
-                   ('section', 'card', 'setid', 1)]
-        expected = {'section': {'card': {'setid': 2}}}
-        actual = self.decoder._gather(entries)
-        self.assertDictEqual(expected, actual)
-
     def test_load(self):
         string = ''
         fp = StringIO(string)
-        expected = {}
+        expected = []
         actual = self.decoder.load(fp)
-        self.assertDictEqual(expected, actual)
+        self.assertListEqual(expected, actual)
 
     def test_loads(self):
         string = ''
-        expected = {}
+        expected = []
         actual = self.decoder.loads(string)
-        self.assertDictEqual(expected, actual)
+        self.assertListEqual(expected, actual)
 
 
 class TestMtgDeckAutoDecoder(TestCase):
@@ -90,23 +83,20 @@ class TestMtgDeckAutoDecoder(TestCase):
         ]
 
         expected = [
-            {'mainboard': {'mname': {None: 1}},
-             'Sideboard': {'sname': {None: 2}}},
-
-            {'mainboard': {'mname': {None: 1}},
-             'sideboard': {'sname': {None: 2}}},
-
-            {'Main': {'mname': {None: 1}},
-             'Sideboard': {'sname': {None: 2}}},
-
-            {'main': {'mname': {None: 1}},
-             'board': {'sname': {None: 2}}}
+            [('mname', {'count': 1}),
+             ('sname', {'section': 'Sideboard', 'count': 2})],
+            [('mname', {'count': 1}),
+             ('sname', {'section': 'Sideboard', 'count': 2})],
+            [('mname', {'section': 'Main', 'count': 1}),
+             ('sname', {'section': 'Sideboard', 'count': 2})],
+            [('mname', {'section': 'main', 'count': 1}),
+             ('sname', {'section': 'board', 'count': 2})]
         ]
 
         actual = [self.decoder.loads(s) for s in strings]
 
         for d, (a, b) in zip(decoders, zip(expected, actual)):
-            self.assertDictEqual(a, b, msg=d)
+            self.assertListEqual(a, b, msg=d)
 
         with self.assertRaises(MtgDeckDecodeError):
             self.decoder.loads('invalid')
@@ -125,10 +115,10 @@ class TestMtgDeckMagicWorkstationDecoder(TestCase):
         """
 
         expected = [
-            ('mainboard', 'mname', None, 1),
-            ('sideboard', 'sname', None, 1),
-            ('mainboard', 'mname', 'SETID', 1),
-            ('sideboard', 'sname', 'SETID', 1),
+            ('mname', {'count': 1}),
+            ('sname', {'section': 'Sideboard', 'count': 1}),
+            ('mname', {'count': 1, 'setid': 'SETID'}),
+            ('sname', {'section': 'Sideboard', 'count': 1, 'setid': 'SETID'}),
         ]
 
         actual = list(self.decoder._decode(string))
