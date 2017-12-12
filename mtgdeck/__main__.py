@@ -41,7 +41,7 @@ def action(kind):
     return ClassAction
 
 
-def parse_arguments():
+def parse_arguments(argv):
     """Parse command line arguments and return a Namespace object."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('-d', '--decoder', help='decoding format',
@@ -49,17 +49,17 @@ def parse_arguments():
     parser.add_argument('-e', '--encoder', help='encoding format',
                         action=action('encoder'))
     parser.add_argument('-i', '--input', help='input file',
-                        type=argparse.FileType(), default=sys.stdin)
+                        type=argparse.FileType('r'), default=sys.stdin)
     parser.add_argument('-o', '--output', help='output file',
-                        type=argparse.FileType(), default=sys.stdout)
-    return parser.parse_args()
+                        type=argparse.FileType('w'), default=sys.stdout)
+    return parser.parse_args(argv)
 
 
-def main():
-    args = parse_arguments()
-    mtgdeck.dump(mtgdeck.load(args.input, cls=args.decoder),
-                 args.output,
-                 cls=args.encoder)
+def main(argv=sys.argv[1:]):
+    args = parse_arguments(argv)
+    sys.exit(mtgdeck.dump(mtgdeck.load(args.input, cls=args.decoder),
+                          args.output,
+                          cls=args.encoder))
 
 
 if __name__ == '__main__':
