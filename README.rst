@@ -18,15 +18,54 @@ What is it?
 ``mtgdeck`` is an application and library for decoding and encoding various
 decklist formats for Magic: The Gathering.
 
-
 Usage
 -----
 
-::
-   
-   # Automatically determine input format in standard input
-   # and encode using default encoder (text) to standard output
-   mtgdeck < input.mws > output.txt
+Automatically determine input format in standard input and encode using default
+encoder (text) to standard output:
 
-   # Decode a Cockatrice decklist and encode to OCTGN, specifying files
-   mtgdeck -d cod -e octgn -i input.cod -o output.o8d
+  .. code:: bash
+
+     mtgdeck < input.mws > output.txt
+
+The same as above, but from Python:
+
+  .. code-block:: python
+
+     import sys
+     import mtgdeck
+     mtgdeck.dump(mtgdeck.load(sys.stdin), sys.stdout)
+
+Decode a Cockatrice decklist and encode to OCTGN, specifying files:
+
+  .. code:: bash
+
+     mtgdeck -d cod -e octgn -i input.cod -o output.o8d
+
+And in Python:
+
+  .. code-block:: python
+
+     import mtgdeck
+
+     src = open('input.cod')
+     target = open('output.o8d', 'w')
+     decklist = mtgdeck.load(src, cls=mtgdeck.MtgDeckCockatriceDecoder)
+     mtgdeck.dump(decklist, target, cls=mtgdeck.MtgDeckOCTGNEncoder)
+
+Formats
+-------
+
+``mtgdeck`` currently supports the following formats:
+
+:Magic online:
+   ``text`` (``.txt`` and ``.dec``)
+:Magic Workstation:
+   ``mws`` (``.mwDeck``)
+:OCTGN:
+   ``o8d`` (``.o8d``)
+:Cockatrice:
+   ``cod`` (``.cod``)
+
+The default decoder is ``auto``: it tries to infer the correct decklist format.
+The default encoder is ``text``.
