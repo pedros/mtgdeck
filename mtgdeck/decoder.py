@@ -57,15 +57,14 @@ class MtgDeckTextDecoder(MtgDeckDecoder):
         entries = self.Deck.parseString(string, parseAll=True)
         section = None
         for entry in entries:
-            try:
+            if len(entry) != 2:
+                section = entry
+            else:
                 count, card = entry
-                if section == self.Section:
-                    yield card, {'section': section, 'count': int(count)}
+                if section == 'Sideboard':
+                    yield card, {'section': 'Sideboard', 'count': int(count)}
                 else:
                     yield card, {'count': int(count)}
-            except ValueError as _:
-                section = entry
-                continue
 
 
 class MtgDeckMagicWorkstationDecoder(MtgDeckDecoder):
@@ -75,44 +74,23 @@ class MtgDeckMagicWorkstationDecoder(MtgDeckDecoder):
         self.Count = Word(nums)
         self.Set = nestedExpr('[', ']')
         self.Card = empty + restOfLine
-        self.Entry = Group(Optional(self.Section) +
+        self.Entry = Group(Optional(self.Section, None) +
                            self.Count +
-                           Optional(self.Set) +
+                           Optional(self.Set, []) +
                            self.Card)
         self.Deck = OneOrMore(self.Comment | self.Entry).ignore(self.Comment)
 
     def _decode(self, string):
-        entries = self.Deck.parseString(string, parseAll=True)
+        entries = self.Deck.parseString(string)
         for entry in entries:
-            count = 0
-            card = ''
-            section = None
-            setid = []
+            section, count, setid, card = entry
 
-            if entry[0] == 'SB:':
-                section = 'Sideboard'
-            else:
-                section = None
-
-            n = len(entry)
-
-            if n == 2:
-                count, card = entry
-            elif n == 3:
-                if section == 'Sideboard':
-                    _, count, card = entry
-                else:
-                    count, setid, card = entry
-            elif n == 4:
-                _, count, setid, card = entry
-
-            if section == 'Sideboard':
-                attrs = {'section': section, 'count': int(count)}
-            else:
-                attrs = {'count': int(count)}
+            attrs = {'count': int(count)}
 
             if len(setid):
                 attrs['setid'] = setid[0]
+            if section:
+                attrs['section'] = 'Sideboard'
 
             yield card, attrs
 
