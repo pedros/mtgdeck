@@ -19,7 +19,7 @@ class TestClassAction(TestCase):
         decoder = self.decoder_action(None, 'dest')
         decoder.__call__(None, patch('argparse.Namespace'), 'default')
 
-        self.assertListEqual(
+        self.assertCountEqual(
             ['default', 'auto', 'text', 'mws', 'cod', 'octgn'],
             list(decoder.choices)
         )
@@ -28,7 +28,7 @@ class TestClassAction(TestCase):
         encoder = self.encoder_action(None, 'dest')
         encoder.__call__(None, patch('argparse.Namespace'), 'default')
 
-        self.assertListEqual(
+        self.assertCountEqual(
             ['default', 'text', 'mws', 'cod', 'octgn'],
             list(encoder.choices)
         )
