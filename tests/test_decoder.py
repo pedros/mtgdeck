@@ -2,29 +2,29 @@ from unittest import TestCase
 from unittest.mock import patch
 from io import StringIO
 
-from mtgdeck.decoder import (MtgDeckDecodeError,
-                             MtgDeckDecoder,
-                             MtgDeckAutoDecoder,
-                             MtgDeckMagicWorkstationDecoder,
-                             MtgDeckOCTGNDecoder)
+from mtgdeck.decoder import (DecodeError,
+                             Decoder,
+                             AutoDecoder,
+                             MagicWorkstationDecoder,
+                             OCTGNDecoder)
 
 
-class TestMtgDeckDecodeError(TestCase):
+class TestDecodeError(TestCase):
     def test___str__(self):
         try:
-            raise MtgDeckDecodeError('a')
-        except MtgDeckDecodeError as e:
+            raise DecodeError('a')
+        except DecodeError as e:
             self.assertEqual("Could not determine decoding format: ('a',)",
                              str(e))
 
 
-class TestMtgDeckDecoder(TestCase):
-    @patch.multiple(MtgDeckDecoder, __abstractmethods__=set())
+class TestDecoder(TestCase):
+    @patch.multiple(Decoder, __abstractmethods__=set())
     def setUp(self):
-        self.decoder = MtgDeckDecoder()
+        self.decoder = Decoder()
 
-    def test_MtgDeckDecoder(self):
-        self.assertRaises(TypeError, MtgDeckDecoder)
+    def test_Decoder(self):
+        self.assertRaises(TypeError, Decoder)
 
     def test_load(self):
         string = ''
@@ -40,9 +40,9 @@ class TestMtgDeckDecoder(TestCase):
         self.assertListEqual(expected, actual)
 
 
-class TestMtgDeckAutoDecoder(TestCase):
+class TestAutoDecoder(TestCase):
     def setUp(self):
-        self.decoder = MtgDeckAutoDecoder()
+        self.decoder = AutoDecoder()
 
     def test_loads(self):
         decoders = ['text', 'mws', 'octgn', 'cod']
@@ -98,13 +98,13 @@ class TestMtgDeckAutoDecoder(TestCase):
         for d, (a, b) in zip(decoders, zip(expected, actual)):
             self.assertListEqual(a, b, msg=d)
 
-        with self.assertRaises(MtgDeckDecodeError):
+        with self.assertRaises(DecodeError):
             self.decoder.loads('invalid')
 
 
-class TestMtgDeckMagicWorkstationDecoder(TestCase):
+class TestMagicWorkstationDecoder(TestCase):
     def setUp(self):
-        self.decoder = MtgDeckMagicWorkstationDecoder()
+        self.decoder = MagicWorkstationDecoder()
 
     def test__decode(self):
         string = """
@@ -128,9 +128,9 @@ class TestMtgDeckMagicWorkstationDecoder(TestCase):
         self.assertListEqual(expected, actual)
 
 
-class TestMtgDeckOCTGNDecoder(TestCase):
+class TestOCTGNDecoder(TestCase):
     def setUp(self):
-        self.decoder = MtgDeckOCTGNDecoder()
+        self.decoder = OCTGNDecoder()
 
     def test__decode(self):
         pass

@@ -2,30 +2,30 @@ from unittest import TestCase
 from unittest.mock import patch
 from io import StringIO
 
-from mtgdeck.encoder import (MtgDeckEncodeError,
-                             MtgDeckEncoder,
-                             MtgDeckTextEncoder,
-                             MtgDeckMagicWorkstationEncoder,
-                             MtgDeckOCTGNEncoder,
-                             MtgDeckCockatriceEncoder)
+from mtgdeck.encoder import (EncodeError,
+                             Encoder,
+                             TextEncoder,
+                             MagicWorkstationEncoder,
+                             OCTGNEncoder,
+                             CockatriceEncoder)
 
 
-class TestMtgDeckEncodeError(TestCase):
+class TestEncodeError(TestCase):
     def test___str__(self):
         try:
-            raise MtgDeckEncodeError('a')
-        except MtgDeckEncodeError as e:
+            raise EncodeError('a')
+        except EncodeError as e:
             self.assertEqual("Could not determine encoding format: ('a',)",
                              str(e))
 
 
-class TestMtgDeckEncoder(TestCase):
-    @patch.multiple(MtgDeckEncoder, __abstractmethods__=set())
+class TestEncoder(TestCase):
+    @patch.multiple(Encoder, __abstractmethods__=set())
     def setUp(self):
-        self.encoder = MtgDeckEncoder()
+        self.encoder = Encoder()
 
-    def test_MtgDeckEncoder(self):
-        self.assertRaises(TypeError, MtgDeckEncoder)
+    def test_Encoder(self):
+        self.assertRaises(TypeError, Encoder)
 
     def test_dump(self):
         obj = []
@@ -42,9 +42,9 @@ class TestMtgDeckEncoder(TestCase):
         self.assertEqual(expected, actual)
 
 
-class TestMtgDeckTextEncoder(TestCase):
+class TestTextEncoder(TestCase):
     def setUp(self):
-        self.encoder = MtgDeckTextEncoder()
+        self.encoder = TextEncoder()
 
     def test__encode(self):
         obj = [('mname', {'count': 2}),
@@ -56,9 +56,9 @@ class TestMtgDeckTextEncoder(TestCase):
         self.assertEqual(expected, actual)
 
 
-class TestMtgDeckMagicWorkstationEncoder(TestCase):
+class TestMagicWorkstationEncoder(TestCase):
     def setUp(self):
-        self.encoder = MtgDeckMagicWorkstationEncoder()
+        self.encoder = MagicWorkstationEncoder()
 
     def test__encode(self):
         obj = [('mname', {'count': 1}),
@@ -74,9 +74,9 @@ SB: 1 sname\nSB: 1 [SETID] sname\n"""
         self.assertEqual(expected, actual)
 
 
-class TestMtgDeckOCTGNEncoder(TestCase):
+class TestOCTGNEncoder(TestCase):
     def setUp(self):
-        self.encoder = MtgDeckOCTGNEncoder()
+        self.encoder = OCTGNEncoder()
 
     def test__encode(self):
         obj = [('mname', {'count': 1}),
@@ -98,9 +98,9 @@ class TestMtgDeckOCTGNEncoder(TestCase):
         self.assertEqual(expected, actual)
 
 
-class TestMtgDeckCockatriceEncoder(TestCase):
+class TestCockatriceEncoder(TestCase):
     def setUp(self):
-        self.encoder = MtgDeckCockatriceEncoder()
+        self.encoder = CockatriceEncoder()
 
     def test__encode(self):
         obj = [('mname', {'count': 1}),

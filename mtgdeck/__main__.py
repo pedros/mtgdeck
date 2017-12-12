@@ -10,17 +10,17 @@ import mtgdeck
 def action(kind):
     """Return a ClassAction(argparse.Action) for ``kind``."""
     encodecs = {
-        'decoder': {'default': mtgdeck.MtgDeckAutoDecoder,
-                    'auto': mtgdeck.MtgDeckAutoDecoder,
-                    'text': mtgdeck.MtgDeckTextDecoder,
-                    'mws': mtgdeck.MtgDeckMagicWorkstationDecoder,
-                    'cod': mtgdeck.MtgDeckCockatriceDecoder,
-                    'octgn': mtgdeck.MtgDeckOCTGNDecoder},
-        'encoder': {'default': mtgdeck.MtgDeckTextEncoder,
-                    'text': mtgdeck.MtgDeckTextEncoder,
-                    'mws': mtgdeck.MtgDeckMagicWorkstationEncoder,
-                    'cod': mtgdeck.MtgDeckCockatriceEncoder,
-                    'octgn': mtgdeck.MtgDeckOCTGNEncoder},
+        'decoder': {'default': mtgdeck.AutoDecoder,
+                    'auto': mtgdeck.AutoDecoder,
+                    'text': mtgdeck.TextDecoder,
+                    'mws': mtgdeck.MagicWorkstationDecoder,
+                    'cod': mtgdeck.CockatriceDecoder,
+                    'octgn': mtgdeck.OCTGNDecoder},
+        'encoder': {'default': mtgdeck.TextEncoder,
+                    'text': mtgdeck.TextEncoder,
+                    'mws': mtgdeck.MagicWorkstationEncoder,
+                    'cod': mtgdeck.CockatriceEncoder,
+                    'octgn': mtgdeck.OCTGNEncoder},
     }
 
     class ClassAction(argparse.Action):

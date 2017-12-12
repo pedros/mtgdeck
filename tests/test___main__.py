@@ -4,10 +4,10 @@ from os import unlink
 from sys import (stdin, stdout)
 from argparse import Namespace
 from mtgdeck.__main__ import (action, main, parse_arguments)
-from mtgdeck import (MtgDeckAutoDecoder,
-                     MtgDeckTextEncoder,
-                     MtgDeckMagicWorkstationDecoder,
-                     MtgDeckCockatriceEncoder)
+from mtgdeck import (AutoDecoder,
+                     TextEncoder,
+                     MagicWorkstationDecoder,
+                     CockatriceEncoder)
 
 
 class TestClassAction(TestCase):
@@ -26,7 +26,7 @@ class TestClassAction(TestCase):
             ['default', 'auto', 'text', 'mws', 'cod', 'octgn'],
             decoder_action_obj.choices
         )
-        self.assertEqual(MtgDeckAutoDecoder, decoder_action_obj.default)
+        self.assertEqual(AutoDecoder, decoder_action_obj.default)
 
         encoder_action_obj = self.encoder_action(None, 'dest')
 
@@ -34,18 +34,18 @@ class TestClassAction(TestCase):
             ['default', 'text', 'mws', 'cod', 'octgn'],
             encoder_action_obj.choices
         )
-        self.assertEqual(MtgDeckTextEncoder, encoder_action_obj.default)
+        self.assertEqual(TextEncoder, encoder_action_obj.default)
 
     def test___call__(self):
         ns = Namespace()
 
         decoder = self.decoder_action(None, 'dest')
         decoder.__call__(None, ns, 'default')
-        self.assertEqual(MtgDeckAutoDecoder, ns.dest)
+        self.assertEqual(AutoDecoder, ns.dest)
 
         encoder = self.encoder_action(None, 'dest')
         encoder.__call__(None, ns, 'default')
-        self.assertEqual(MtgDeckTextEncoder, ns.dest)
+        self.assertEqual(TextEncoder, ns.dest)
 
 
 class TestMain(TestCase):
@@ -69,16 +69,16 @@ class TestMain(TestCase):
 
     def test_parse_arguments(self):
         args = [
-            ([], {'decoder': MtgDeckAutoDecoder,
-                  'encoder': MtgDeckTextEncoder,
+            ([], {'decoder': AutoDecoder,
+                  'encoder': TextEncoder,
                   'input': stdin,
                   'output': stdout}),
             (['-d', 'mws',
               '-e', 'cod',
               '-i', 'input.txt',
               '-o', 'output.txt'],
-             {'decoder': MtgDeckMagicWorkstationDecoder,
-              'encoder': MtgDeckCockatriceEncoder,
+             {'decoder': MagicWorkstationDecoder,
+              'encoder': CockatriceEncoder,
               'input': open('input.txt', 'r'),
               'output': open('output.txt', 'w')})
         ]

@@ -50,8 +50,8 @@ And in Python:
 
      src = open('input.cod')
      target = open('output.o8d', 'w')
-     decklist = mtgdeck.load(src, cls=mtgdeck.MtgDeckCockatriceDecoder)
-     mtgdeck.dump(decklist, target, cls=mtgdeck.MtgDeckOCTGNEncoder)
+     decklist = mtgdeck.load(src, cls=mtgdeck.CockatriceDecoder)
+     mtgdeck.dump(decklist, target, cls=mtgdeck.OCTGNEncoder)
 
 Formats
 -------

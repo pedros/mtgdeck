@@ -2,12 +2,12 @@ from abc import ABCMeta, abstractmethod
 from xml.etree import ElementTree
 
 
-class MtgDeckEncodeError(Exception):
+class EncodeError(Exception):
     def __str__(self):
         return 'Could not determine encoding format: {}'.format(self.args)
 
 
-class MtgDeckEncoder(metaclass=ABCMeta):
+class Encoder(metaclass=ABCMeta):
     """Abstract base class for encoders.
 
     Only one method must be implemented: ``_encode``
@@ -25,7 +25,7 @@ class MtgDeckEncoder(metaclass=ABCMeta):
         return self._encode(obj)
 
 
-class MtgDeckTextEncoder(MtgDeckEncoder):
+class TextEncoder(Encoder):
     """Encoding class for the simple text format.
 
     This is the format that MTGO outputs. Each line has the form 'quantity
@@ -44,7 +44,7 @@ class MtgDeckTextEncoder(MtgDeckEncoder):
         return out
 
 
-class MtgDeckMagicWorkstationEncoder(MtgDeckEncoder):
+class MagicWorkstationEncoder(Encoder):
     """Encoding class for the Magic Workstation format.
 
     Each line has the form '[SB: ]quantity [SETID ]name', '[]' meaning optional
@@ -70,7 +70,7 @@ class MtgDeckMagicWorkstationEncoder(MtgDeckEncoder):
         return out
 
 
-class MtgDeckOCTGNEncoder(MtgDeckEncoder):
+class OCTGNEncoder(Encoder):
     """Encoding class for the OCTGN Deck Creator format.
 
     """
@@ -96,7 +96,7 @@ class MtgDeckOCTGNEncoder(MtgDeckEncoder):
         return ElementTree.tostring(root, encoding='unicode')
 
 
-class MtgDeckCockatriceEncoder(MtgDeckEncoder):
+class CockatriceEncoder(Encoder):
     """Encoding class for the Cockatrice format.
 
     """

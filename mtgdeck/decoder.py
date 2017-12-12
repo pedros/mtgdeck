@@ -6,12 +6,12 @@ from pyparsing import (Group, Keyword, OneOrMore, Optional, ParseException,
                        restOfLine)
 
 
-class MtgDeckDecodeError(Exception):
+class DecodeError(Exception):
     def __str__(self):
         return 'Could not determine decoding format: {}'.format(self.args)
 
 
-class MtgDeckDecoder(metaclass=ABCMeta):
+class Decoder(metaclass=ABCMeta):
 
     @abstractmethod
     def _decode(self, string):
@@ -25,12 +25,12 @@ class MtgDeckDecoder(metaclass=ABCMeta):
         return list(self._decode(src))
 
 
-class MtgDeckAutoDecoder(MtgDeckDecoder):
+class AutoDecoder(Decoder):
     def _decode(self, string): pass
 
     def loads(self, string):
         exceptions = []
-        for cls in MtgDeckDecoder.__subclasses__():
+        for cls in Decoder.__subclasses__():
             if cls == self.__class__:
                 continue
             try:
@@ -39,10 +39,10 @@ class MtgDeckAutoDecoder(MtgDeckDecoder):
                     AssertionError,
                     ElementTree.ParseError) as e:
                 exceptions.append(cls)
-        raise MtgDeckDecodeError(exceptions)
+        raise DecodeError(exceptions)
 
 
-class MtgDeckTextDecoder(MtgDeckDecoder):
+class TextDecoder(Decoder):
     def __init__(self):
         self.Comment = cppStyleComment
         self.Section = Keyword('Sideboard')
@@ -67,7 +67,7 @@ class MtgDeckTextDecoder(MtgDeckDecoder):
                     yield card, {'count': int(count)}
 
 
-class MtgDeckMagicWorkstationDecoder(MtgDeckDecoder):
+class MagicWorkstationDecoder(Decoder):
     def __init__(self):
         self.Comment = cppStyleComment
         self.Section = Keyword('SB:')
@@ -95,7 +95,7 @@ class MtgDeckMagicWorkstationDecoder(MtgDeckDecoder):
             yield card, attrs
 
 
-class MtgDeckOCTGNDecoder(MtgDeckDecoder):
+class OCTGNDecoder(Decoder):
     def _decode(self, string):
         fp = StringIO(string)
         tree = ElementTree.parse(fp)
@@ -110,7 +110,7 @@ class MtgDeckOCTGNDecoder(MtgDeckDecoder):
                              'count': int(count)}
 
 
-class MtgDeckCockatriceDecoder(MtgDeckDecoder):
+class CockatriceDecoder(Decoder):
     def _decode(self, string):
         fp = StringIO(string)
         tree = ElementTree.parse(fp)
