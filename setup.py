@@ -32,7 +32,7 @@ setup(
     ],
     long_description=open('README.rst').read(),
     install_requires=['pyparsing'],
-    tests_require=['pytest'],
+    tests_require=['pytest', 'pytest-cov', 'coverage', 'codecov'],
     entry_points={
         'console_scripts': [
             'mtgdeck=mtgdeck.__main__:main',
