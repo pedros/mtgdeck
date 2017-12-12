@@ -95,7 +95,6 @@ class TestMtgDeckOCTGNEncoder(TestCase):
         </deck>""".split('\n')])
 
         actual = self.encoder._encode(obj)
-        print(expected, actual, sep='\n')
         self.assertEqual(expected, actual)
 
 
@@ -123,5 +122,4 @@ class TestMtgDeckCockatriceEncoder(TestCase):
         </cockatrice_deck>""".split('\n')])
 
         actual = self.encoder._encode(obj)
-        print(expected, actual, sep='\n')
         self.assertEqual(expected, actual)
