@@ -112,6 +112,7 @@ class TestMtgDeckMagicWorkstationDecoder(TestCase):
         SB: 1 sname
         1 [SETID] mname
         SB: 1 [SETID] sname
+        SB: 2 [] sname
         """
 
         expected = [
@@ -119,6 +120,7 @@ class TestMtgDeckMagicWorkstationDecoder(TestCase):
             ('sname', {'section': 'Sideboard', 'count': 1}),
             ('mname', {'count': 1, 'setid': 'SETID'}),
             ('sname', {'section': 'Sideboard', 'count': 1, 'setid': 'SETID'}),
+            ('sname', {'section': 'Sideboard', 'count': 2}),
         ]
 
         actual = list(self.decoder._decode(string))
