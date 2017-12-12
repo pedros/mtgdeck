@@ -9,4 +9,5 @@ install:
 script:
   - pytest
 after_success:
+  - coverage xml
   - codecov
