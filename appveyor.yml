@@ -15,5 +15,5 @@ install:
 build: off
 
 test_script:
-  - "py.test --cov"
+  - "py.test --cov -s"
   - "codecov"
