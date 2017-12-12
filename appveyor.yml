@@ -8,11 +8,12 @@ environment:
     - PYTHON: "C:\\Python36-x64"
 
 install:
-  - "%PYTHON%\\python.exe -m pip install -r tests/requirements.txt"
-  - "%PYTHON%\\python.exe -m pip install -r requirements.txt"
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  - "python.exe -m pip install -r tests/requirements.txt"
+  - "python.exe -m pip install -r requirements.txt"
 
 build: off
 
 test_script:
-  - "%PYTHON%\\python.exe -m pytest --cov"
-  - "%PYTHON%\\python.exe -m codecov"
+  - "py.test --cov"
+  - "codecov"
