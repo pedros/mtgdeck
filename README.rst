@@ -25,11 +25,13 @@ Automatically determine input format in standard input and encode using default
 encoder (text) to standard output:
 
 .. code:: bash
+
    mtgdeck < input.mws > output.txt
 
 The same as above, but from Python:
 
 .. code-block:: python
+
    import sys
    import mtgdeck
    mtgdeck.dump(mtgdeck.load(sys.stdin), sys.stdout)
@@ -37,16 +39,18 @@ The same as above, but from Python:
 Decode a Cockatrice decklist and encode to OCTGN, specifying files:
 
 .. code:: bash
+
    mtgdeck -d cod -e octgn -i input.cod -o output.o8d
 
 And in Python:
 
 .. code-block:: python
-  import mtgdeck
-  src = open('input.cod')
-  target = open('output.o8d', 'w')
-  decklist = mtgdeck.load(src, cls=mtgdeck.CockatriceDecoder)
-  mtgdeck.dump(decklist, target, cls=mtgdeck.OCTGNEncoder)
+
+   import mtgdeck
+   src = open('input.cod')
+   target = open('output.o8d', 'w')
+   decklist = mtgdeck.load(src, cls=mtgdeck.CockatriceDecoder)
+   mtgdeck.dump(decklist, target, cls=mtgdeck.OCTGNEncoder)
 
 Formats
 -------
@@ -68,12 +72,12 @@ The default encoder is ``text``.
 Installation
 ------------
 
-  .. code-block:: bash
+.. code-block:: bash
 
-     pip install mtgdeck
-     mtgdeck --help  # or python -m mtgdeck --help
+   pip install mtgdeck
+   mtgdeck --help  # or python -m mtgdeck --help
 
 Contributing
 ------------
 
-See the `CONTRIBUTING.rst`_ file.
+See the `<CONTRIBUTING.rst>`_ file.

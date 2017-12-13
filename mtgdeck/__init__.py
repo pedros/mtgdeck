@@ -1,4 +1,4 @@
-"""Public API entry-point for mtgdeck"""
+"""Public API entry-point for mtgdeck."""
 
 from .decoder import (DecodeError,
                       AutoDecoder,
