@@ -26,7 +26,8 @@ class Decoder(metaclass=ABCMeta):
 
 
 class AutoDecoder(Decoder):
-    def _decode(self, string): pass
+    def _decode(self, string):
+        pass
 
     def loads(self, string):
         exceptions = []
@@ -37,24 +38,24 @@ class AutoDecoder(Decoder):
                 return cls().loads(string)
             except (ParseException,
                     AssertionError,
-                    ElementTree.ParseError) as e:
+                    ElementTree.ParseError) as _:
                 exceptions.append(cls)
         raise DecodeError(exceptions)
 
 
 class TextDecoder(Decoder):
     def __init__(self):
-        self.Comment = cppStyleComment
-        self.Section = Keyword('Sideboard')
-        self.Count = Word(nums)
-        self.Card = empty + restOfLine
-        self.Entry = Group(self.Count + self.Card)
-        self.Deck = OneOrMore(self.Comment |
-                              self.Section |
-                              self.Entry).ignore(self.Comment)
+        self.comment = cppStyleComment
+        self.section = Keyword('Sideboard')
+        self.count = Word(nums)
+        self.card = empty + restOfLine
+        self.entry = Group(self.count + self.card)
+        self.deck = OneOrMore(self.comment |
+                              self.section |
+                              self.entry).ignore(self.comment)
 
     def _decode(self, string):
-        entries = self.Deck.parseString(string, parseAll=True)
+        entries = self.deck.parseString(string, parseAll=True)
         section = None
         for entry in entries:
             if len(entry) != 2:
@@ -69,25 +70,25 @@ class TextDecoder(Decoder):
 
 class MagicWorkstationDecoder(Decoder):
     def __init__(self):
-        self.Comment = cppStyleComment
-        self.Section = Keyword('SB:')
-        self.Count = Word(nums)
-        self.Set = nestedExpr('[', ']')
-        self.Card = empty + restOfLine
-        self.Entry = Group(Optional(self.Section, None) +
-                           self.Count +
-                           Optional(self.Set, []) +
-                           self.Card)
-        self.Deck = OneOrMore(self.Comment | self.Entry).ignore(self.Comment)
+        self.comment = cppStyleComment
+        self.section = Keyword('SB:')
+        self.count = Word(nums)
+        self.set = nestedExpr('[', ']')
+        self.card = empty + restOfLine
+        self.entry = Group(Optional(self.section, None) +
+                           self.count +
+                           Optional(self.set, []) +
+                           self.card)
+        self.deck = OneOrMore(self.comment | self.entry).ignore(self.comment)
 
     def _decode(self, string):
-        entries = self.Deck.parseString(string)
+        entries = self.deck.parseString(string)
         for entry in entries:
             section, count, setid, card = entry
 
             attrs = {'count': int(count)}
 
-            if len(setid):
+            if setid:
                 attrs['setid'] = setid[0]
             if section:
                 attrs['section'] = 'Sideboard'
@@ -100,7 +101,7 @@ class OCTGNDecoder(Decoder):
         fp = StringIO(string)
         tree = ElementTree.parse(fp)
 
-        assert(tree.getroot().tag == 'deck')
+        assert tree.getroot().tag == 'deck'
 
         for section in tree.findall('section'):
             for entry in section.findall('card'):
@@ -115,7 +116,7 @@ class CockatriceDecoder(Decoder):
         fp = StringIO(string)
         tree = ElementTree.parse(fp)
 
-        assert(tree.getroot().tag == 'cockatrice_deck')
+        assert tree.getroot().tag == 'cockatrice_deck'
 
         for section in tree.findall('zone'):
             for entry in section.findall('card'):

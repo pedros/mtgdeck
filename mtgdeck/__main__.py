@@ -55,7 +55,7 @@ def parse_arguments(argv):
     return parser.parse_args(argv)
 
 
-def main(argv=sys.argv[1:]):
+def main(argv):
     args = parse_arguments(argv)
     sys.exit(mtgdeck.dump(mtgdeck.load(args.input, cls=args.decoder),
                           args.output,
@@ -63,4 +63,4 @@ def main(argv=sys.argv[1:]):
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])

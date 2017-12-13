@@ -44,6 +44,9 @@ class TestAutoDecoder(TestCase):
     def setUp(self):
         self.decoder = AutoDecoder()
 
+    def test__decode(self):
+        self.assertEqual(None, self.decoder._decode(''))
+
     def test_loads(self):
         decoders = ['text', 'mws', 'octgn', 'cod']
 

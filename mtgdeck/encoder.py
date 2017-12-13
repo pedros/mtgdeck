@@ -104,7 +104,7 @@ class CockatriceEncoder(Encoder):
         root = ElementTree.Element('cockatrice_deck')
         sections = {}
 
-        for name,  attrs in obj:
+        for name, attrs in obj:
             section = attrs.get('section', 'main')
             setid = attrs.get('setid', None)
             count = attrs['count']
