@@ -80,4 +80,4 @@ Installation
 Contributing
 ------------
 
-See the `<CONTRIBUTING.rst>`_ file.
+See the `Contribution guidelines <CONTRIBUTING.rst>`_ file.
