@@ -1,4 +1,6 @@
 Contribution guidelines
 =======================
 
-.. todo:: work on this!
+.. todo::
+
+   work on this!
