@@ -81,3 +81,8 @@ Contributing
 ------------
 
 See the `Contribution guidelines <CONTRIBUTING.rst>`_ file.
+
+
+.. image:: https://api.codacy.com/project/badge/Grade/4a3432da96f04ba6948b1d2b91042f37
+   :alt: Codacy Badge
+   :target: https://www.codacy.com/app/pedros/mtgdeck?utm_source=github.com&utm_medium=referral&utm_content=pedros/mtgdeck&utm_campaign=badger
