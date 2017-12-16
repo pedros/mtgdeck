@@ -55,7 +55,7 @@ def parse_arguments(argv):
     return parser.parse_args(argv)
 
 
-def main(argv):
+def main(argv=None):
     args = parse_arguments(argv)
     sys.exit(mtgdeck.dump(mtgdeck.load(args.input, cls=args.decoder),
                           args.output,
