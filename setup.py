@@ -3,14 +3,14 @@ from setuptools import setup
 setup(
     name='mtgdeck',
     packages=['mtgdeck'],
-    version='0.0.6',
+    version='0.0.7',
     description='MTG deck list decoder and encoder library and application',
     long_description=open('README.rst').read(),
     author='Pedro Silva',
     author_email='psilva+git@pedrosilva.pt',
     license='GPLv3',
     url='https://github.com/pedros/mtgdeck',
-    download_url='https://github.com/pedros/mtgdeck/archive/0.0.6.tar.gz',
+    download_url='https://github.com/pedros/mtgdeck/archive/0.0.7.tar.gz',
     keywords=[
         'magic-the-gathering',
         'parser',
