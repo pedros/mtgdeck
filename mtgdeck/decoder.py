@@ -93,7 +93,7 @@ class MagicWorkstationDecoder(Decoder):
 
 class XMLDecoder(Decoder):
     def __init__(self):
-        import importlib
+        import importlib.util
         if importlib.util.find_spec('defusedxml'):
             from defusedxml.ElementTree import parse as parser
         else:
