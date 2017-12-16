@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from xml.etree import ElementTree
+from xml.etree.ElementTree import Element, SubElement, tostring
 
 
 class EncodeError(Exception):
@@ -37,9 +37,8 @@ class TextEncoder(Encoder):
     def _encode(self, obj):
         out = ''
         for name, attrs in obj:
-            if 'section' in attrs:
-                if attrs['section'] == 'Sideboard':
-                    out += 'Sideboard\n'
+            if attrs.get('section', False) == 'Sideboard':
+                out += 'Sideboard\n'
             out += '{} {}\n'.format(attrs['count'], name)
         return out
 
@@ -75,7 +74,7 @@ class OCTGNEncoder(Encoder):
 
     """
     def _encode(self, obj):
-        root = ElementTree.Element('deck')
+        root = Element('deck')
         sections = {}
 
         for name, attrs in obj:
@@ -83,17 +82,17 @@ class OCTGNEncoder(Encoder):
             setid = attrs.get('setid', None)
             count = attrs['count']
             if section not in sections:
-                sections[section] = ElementTree.SubElement(root, 'section',
-                                                           {'name': section})
+                sections[section] = SubElement(root, 'section',
+                                               {'name': section})
 
             attrs = {'qty': str(count)}
             if setid:
                 attrs['setid'] = setid
 
-            card = ElementTree.SubElement(sections[section], 'card', attrs)
+            card = SubElement(sections[section], 'card', attrs)
             card.text = name
 
-        return ElementTree.tostring(root, encoding='unicode')
+        return tostring(root, encoding='unicode')
 
 
 class CockatriceEncoder(Encoder):
@@ -101,7 +100,7 @@ class CockatriceEncoder(Encoder):
 
     """
     def _encode(self, obj):
-        root = ElementTree.Element('cockatrice_deck')
+        root = Element('cockatrice_deck')
         sections = {}
 
         for name, attrs in obj:
@@ -110,13 +109,13 @@ class CockatriceEncoder(Encoder):
             count = attrs['count']
 
             if section not in sections:
-                sections[section] = ElementTree.SubElement(root, 'zone',
-                                                           {'name': section})
+                sections[section] = SubElement(root, 'zone',
+                                               {'name': section})
 
             attrs = {'number': str(count), 'name': name}
             if setid:
                 attrs['setid'] = setid
 
-            ElementTree.SubElement(sections[section], 'card', attrs)
+            SubElement(sections[section], 'card', attrs)
 
-        return ElementTree.tostring(root, encoding='unicode')
+        return tostring(root, encoding='unicode')

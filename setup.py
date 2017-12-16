@@ -38,6 +38,9 @@ setup(
     ],
     install_requires=['pyparsing'],
     tests_require=['pytest', 'pytest-cov', 'coverage', 'codecov'],
+    extras_require={
+        'safe': ['defusedxml'],
+    },
     test_suite='tests',
     entry_points={
         'console_scripts': [

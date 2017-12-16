@@ -1,12 +1,15 @@
 from unittest import TestCase
 from unittest.mock import patch
 from io import StringIO
+from sys import modules
 
 from mtgdeck.decoder import (DecodeError,
                              Decoder,
                              AutoDecoder,
                              MagicWorkstationDecoder,
-                             OCTGNDecoder)
+                             XMLDecoder,
+                             OCTGNDecoder,
+                             CockatriceDecoder)
 
 
 class TestDecodeError(TestCase):
@@ -131,9 +134,45 @@ class TestMagicWorkstationDecoder(TestCase):
         self.assertListEqual(expected, actual)
 
 
+class TestXMLDecoder(TestCase):
+    def test_XMLDecoder(self):
+        self.assertRaises(TypeError, XMLDecoder)
+
+    @patch.multiple(XMLDecoder, __abstractmethods__=set())
+    def test_defusedxml_presence(self):
+        self.assertEqual('defusedxml.common', XMLDecoder().parser.__module__)
+
+    @patch.multiple(XMLDecoder, __abstractmethods__=set())
+    @patch.dict(modules, {'defusedxml': None})
+    def test_defusedxml_absence(self):
+        self.assertEqual('xml.etree.ElementTree',
+                         XMLDecoder().parser.__module__)
+
+    @patch.multiple(XMLDecoder, __abstractmethods__=set())
+    @patch.multiple(XMLDecoder,
+                    root='deck',
+                    section='section',
+                    count='qty')
+    def test__decode(self):
+        decoder = XMLDecoder()
+        dec = decoder._decode
+        with self.assertRaises(DecodeError):
+            list(dec('<deck><section><card qty="1"></card></section></deck>'))
+
+
 class TestOCTGNDecoder(TestCase):
     def setUp(self):
         self.decoder = OCTGNDecoder()
 
     def test__decode(self):
-        pass
+        with self.assertRaises(KeyError):
+            list(self.decoder._decode('<cockatrice_deck></cockatrice_deck>'))
+
+
+class TestCockatriceDecoder(TestCase):
+    def setUp(self):
+        self.decoder = CockatriceDecoder()
+
+    def test__decode(self):
+        with self.assertRaises(KeyError):
+            list(self.decoder._decode('<deck></deck>'))

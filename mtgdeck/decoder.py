@@ -1,9 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from io import StringIO
-from xml.etree import ElementTree
-from pyparsing import (Group, Keyword, OneOrMore, Optional, ParseException,
-                       Word, cppStyleComment, empty, nestedExpr, nums,
-                       restOfLine)
+from pyparsing import (Group, Keyword, OneOrMore, Optional, Word,
+                       cppStyleComment, empty, nestedExpr, nums, restOfLine)
 
 
 class DecodeError(Exception):
@@ -31,15 +29,12 @@ class AutoDecoder(Decoder):
 
     def loads(self, string):
         exceptions = []
-        for cls in Decoder.__subclasses__():
-            if cls == self.__class__:
-                continue
+        for cls in (TextDecoder, MagicWorkstationDecoder,
+                    OCTGNDecoder, CockatriceDecoder):
             try:
                 return cls().loads(string)
-            except (ParseException,
-                    AssertionError,
-                    ElementTree.ParseError) as _:
-                exceptions.append(cls)
+            except Exception as _:
+                exceptions.append((cls, _))
         raise DecodeError(exceptions)
 
 
@@ -96,31 +91,56 @@ class MagicWorkstationDecoder(Decoder):
             yield card, attrs
 
 
-class OCTGNDecoder(Decoder):
+class XMLDecoder(Decoder):
+    def __init__(self):
+        import importlib
+        if importlib.util.find_spec('defusedxml'):
+            from defusedxml.ElementTree import parse as parser
+        else:
+            from xml.etree.ElementTree import parse as parser
+        self.parser = parser
+
+    @property
+    @abstractmethod
+    def root(self):
+        """Root (top-level) tag for the XML format."""
+
+    @property
+    @abstractmethod
+    def section(self):
+        """Section (ie: sideboard, etc) tag for the XML format."""
+
+    @property
+    @abstractmethod
+    def count(self):
+        """Quantity (ie: qty, number) tag for the XML format."""
+
     def _decode(self, string):
         fp = StringIO(string)
-        tree = ElementTree.parse(fp)
+        tree = self.parser(fp)
 
-        assert tree.getroot().tag == 'deck'
+        if tree.getroot().tag != self.root:
+            raise KeyError('Missing a "{}" tag', self.root)
 
-        for section in tree.findall('section'):
+        for section in tree.findall(self.section):
             for entry in section.findall('card'):
-                count = entry.attrib['qty']
+                count = entry.attrib[self.count]
                 card = entry.text
+                if not card:
+                    card = entry.attrib.get('name', False)
+                    if not card:
+                        raise DecodeError("Missing a card entry 'name'")
                 yield card, {'section': section.attrib['name'],
                              'count': int(count)}
 
 
-class CockatriceDecoder(Decoder):
-    def _decode(self, string):
-        fp = StringIO(string)
-        tree = ElementTree.parse(fp)
+class OCTGNDecoder(XMLDecoder):
+    root = 'deck'
+    section = 'section'
+    count = 'qty'
 
-        assert tree.getroot().tag == 'cockatrice_deck'
 
-        for section in tree.findall('zone'):
-            for entry in section.findall('card'):
-                count = entry.attrib['number']
-                card = entry.attrib['name']
-                yield card, {'section': section.attrib['name'],
-                             'count': int(count)}
+class CockatriceDecoder(XMLDecoder):
+    root = 'cockatrice_deck'
+    section = 'zone'
+    count = 'number'
