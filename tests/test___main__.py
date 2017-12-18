@@ -1,6 +1,7 @@
 from unittest import TestCase
 
-from os import unlink
+from tempfile import mkdtemp
+from os import unlink, path, rmdir
 from sys import (stdin, stdout)
 from argparse import Namespace
 from mtgdeck.__main__ import (action, main, parse_arguments)
@@ -50,12 +51,15 @@ class TestClassAction(TestCase):
 
 class TestMain(TestCase):
     def setUp(self):
-        self.test_input_file = open('input.txt', 'w').name
-        self.test_output_file = open('output.txt', 'w').name
+        self.test_dir = mkdtemp()
+        self.test_input_file = path.join(self.test_dir, 'input.txt')
+        self.test_output_file = path.join(self.test_dir, 'output.txt')
+        open(self.test_input_file, 'w').close()
 
     def tearDown(self):
         unlink(self.test_input_file)
         unlink(self.test_output_file)
+        rmdir(self.test_dir)
 
     def _assertDictEqual(self, d1, d2, msg=None):
         for k, v1 in d1.items():
@@ -68,6 +72,9 @@ class TestMain(TestCase):
         return True
 
     def test_parse_arguments(self):
+        fp_in = open(self.test_input_file, 'r')
+        fp_out = open(self.test_output_file, 'w')
+
         args = [
             ([], {'decoder': AutoDecoder,
                   'encoder': TextEncoder,
@@ -75,27 +82,30 @@ class TestMain(TestCase):
                   'output': stdout}),
             (['-d', 'mws',
               '-e', 'cod',
-              '-i', 'input.txt',
-              '-o', 'output.txt'],
+              '-i', self.test_input_file,
+              '-o', self.test_output_file],
              {'decoder': MagicWorkstationDecoder,
               'encoder': CockatriceEncoder,
-              'input': open('input.txt', 'r'),
-              'output': open('output.txt', 'w')})
+              'input': fp_in,
+              'output': fp_out})
         ]
 
         for argv, expected in args:
             actual = vars(parse_arguments(argv))
             self._assertDictEqual(expected, actual)
 
+        fp_in.close()
+        fp_out.close()
+
     def test_main(self):
-        with open('input.txt', 'w') as fp:
+        with open(self.test_input_file, 'w') as fp:
             fp.write('1 mname\n')
 
         with self.assertRaises(SystemExit):
             main(['-d', 'mws',
                   '-e', 'cod',
-                  '-i', 'input.txt',
-                  '-o', 'output.txt'])
+                  '-i', self.test_input_file,
+                  '-o', self.test_output_file])
 
         expected = ''.join([_.strip() for _ in """
         <cockatrice_deck>
@@ -104,5 +114,7 @@ class TestMain(TestCase):
           </zone>
         </cockatrice_deck>""".split('\n')])
 
-        actual = open('output.txt').read()
+        with open(self.test_output_file) as fp:
+            actual = fp.read()
+
         self.assertEqual(expected, actual)

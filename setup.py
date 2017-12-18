@@ -1,8 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='mtgdeck',
-    packages=['mtgdeck'],
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
     version='0.0.7',
     description='MTG deck list decoder and encoder library and application',
     long_description=open('README.rst').read(),
@@ -37,7 +38,11 @@ setup(
         'Topic :: Utilities'
     ],
     install_requires=['pyparsing'],
-    tests_require=['pytest', 'pytest-cov', 'coverage', 'codecov'],
+    tests_require=['pytest',
+                   'pytest-cov',
+                   'coverage',
+                   'codecov',
+                   'defusedxml'],
     extras_require={
         'safe': ['defusedxml'],
     },
