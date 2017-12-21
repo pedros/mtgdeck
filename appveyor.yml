@@ -2,9 +2,12 @@ build: off
 
 environment:
   matrix:
-    - TOXENV: "C:\\Python34"
-    - TOXENV: "C:\\Python35"
-    - TOXENV: "C:\\Python36"
+    - PYTHON: "C:\\Python34"
+      TOXENV: "py34"
+    - PYTHON: "C:\\Python35"
+      TOXENV: "py35"
+    - PYTHON: "C:\\Python36"
+      TOXENV: "py36"
 
 install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
