@@ -1,19 +1,17 @@
+build: off
+
 environment:
-  matrix:
+  TOXENV:
     - PYTHON: "C:\\Python34"
     - PYTHON: "C:\\Python35"
     - PYTHON: "C:\\Python36"
-    - PYTHON: "C:\\Python34-x64"
-    - PYTHON: "C:\\Python35-x64"
-    - PYTHON: "C:\\Python36-x64"
 
 install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-  - "python.exe -m pip install -r tests/requirements.txt"
-  - "python.exe -m pip install -r requirements.txt"
-
-build: off
+  - "python.exe -m pip install tox codecov"
 
 test_script:
-  - "py.test --cov -s"
+  - "tox"
+
+after_test:
   - "codecov"

@@ -37,15 +37,12 @@ setup(
         'Topic :: Text Processing :: Filters',
         'Topic :: Utilities'
     ],
-    install_requires=['pyparsing'],
-    tests_require=['pytest',
-                   'pytest-cov',
+    install_requires=['pyparsing', 'defusedxml'],
+    tests_require=['codecov',
                    'coverage',
-                   'codecov',
-                   'defusedxml'],
-    extras_require={
-        'safe': ['defusedxml'],
-    },
+                   'pytest-cov',
+                   'pytest-pep8',
+                   'pytest'],
     test_suite='tests',
     entry_points={
         'console_scripts': [
