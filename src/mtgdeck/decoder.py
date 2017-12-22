@@ -2,6 +2,7 @@ from abc import ABCMeta, abstractmethod
 from io import StringIO
 from pyparsing import (Group, Keyword, OneOrMore, Optional, Word,
                        cppStyleComment, empty, nestedExpr, nums, restOfLine)
+from defusedxml.ElementTree import parse
 
 
 class DecodeError(Exception):
@@ -92,14 +93,6 @@ class MagicWorkstationDecoder(Decoder):
 
 
 class XMLDecoder(Decoder):
-    def __init__(self):
-        import importlib.util
-        if importlib.util.find_spec('defusedxml'):
-            from defusedxml.ElementTree import parse as parser
-        else:
-            from xml.etree.ElementTree import parse as parser
-        self.parser = parser
-
     @property
     @abstractmethod
     def root(self):
@@ -117,7 +110,7 @@ class XMLDecoder(Decoder):
 
     def _decode(self, string):
         fp = StringIO(string)
-        tree = self.parser(fp)
+        tree = parse(fp)
 
         if tree.getroot().tag != self.root:
             raise KeyError('Missing a "{}" tag', self.root)

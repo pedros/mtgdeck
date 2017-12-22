@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from xml.etree.ElementTree import Element, SubElement, tostring
+from xml.etree.ElementTree import Element, SubElement, tostring  # nosec
 
 
 class EncodeError(Exception):
@@ -69,53 +69,75 @@ class MagicWorkstationEncoder(Encoder):
         return out
 
 
-class OCTGNEncoder(Encoder):
-    """Encoding class for the OCTGN Deck Creator format.
+class XMLEncoder(Encoder):
+    @property
+    @abstractmethod
+    def root(self):
+        """Root (top-level) tag for the XML format."""
 
-    """
+    @property
+    @abstractmethod
+    def section(self):
+        """Section (ie: sideboard, etc) tag for the XML format."""
+
+    @property
+    @abstractmethod
+    def section_name(self):
+        """Section name(ie: Main, Sideboard) tag for the XML format."""
+
+    @property
+    @abstractmethod
+    def count(self):
+        """Quantity (ie: qty, number) tag for the XML format."""
+
+    @abstractmethod
+    def set_content(self, name, card):
+        """Set card name in card ``Element``."""
+
     def _encode(self, obj):
-        root = Element('deck')
+        root = Element(self.root)
         sections = {}
 
         for name, attrs in obj:
-            section = attrs.get('section', 'Main')
+            section = attrs.get('section', self.section_name)
             setid = attrs.get('setid', None)
             count = attrs['count']
+
             if section not in sections:
-                sections[section] = SubElement(root, 'section',
+                sections[section] = SubElement(root, self.section,
                                                {'name': section})
 
-            attrs = {'qty': str(count)}
+            attrs = {self.count: str(count)}
             if setid:
                 attrs['setid'] = setid
 
             card = SubElement(sections[section], 'card', attrs)
-            card.text = name
+            self.set_content(name, card)
 
         return tostring(root, encoding='unicode')
 
 
-class CockatriceEncoder(Encoder):
+class OCTGNEncoder(XMLEncoder):
+    """Encoding class for the OCTGN Deck Creator format.
+
+    """
+    root = 'deck'
+    section = 'section'
+    section_name = 'Main'
+    count = 'qty'
+
+    def set_content(self, name, card):
+        card.text = name
+
+
+class CockatriceEncoder(XMLEncoder):
     """Encoding class for the Cockatrice format.
 
     """
-    def _encode(self, obj):
-        root = Element('cockatrice_deck')
-        sections = {}
+    root = 'cockatrice_deck'
+    section = 'zone'
+    section_name = 'main'
+    count = 'number'
 
-        for name, attrs in obj:
-            section = attrs.get('section', 'main')
-            setid = attrs.get('setid', None)
-            count = attrs['count']
-
-            if section not in sections:
-                sections[section] = SubElement(root, 'zone',
-                                               {'name': section})
-
-            attrs = {'number': str(count), 'name': name}
-            if setid:
-                attrs['setid'] = setid
-
-            SubElement(sections[section], 'card', attrs)
-
-        return tostring(root, encoding='unicode')
+    def set_content(self, name, card):
+        card.attrib['name'] = name

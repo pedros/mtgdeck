@@ -5,7 +5,10 @@
    :target: https://ci.appveyor.com/project/pedros/mtgdeck
 
 .. image:: https://codecov.io/gh/pedros/mtgdeck/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/pedros/mtgdeck
+   :target: https://codecov.io/gh/pedros/mtgdeck
+
+.. image:: https://api.codacy.com/project/badge/Grade/724c2300463b4f639bf406e1bfe1fe10
+   :target: https://www.codacy.com/app/pedros/mtgdeck?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pedros/mtgdeck&amp;utm_campaign=Badge_Grade
 
 mtgdeck
 =======

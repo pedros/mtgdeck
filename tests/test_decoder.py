@@ -139,16 +139,6 @@ class TestXMLDecoder(TestCase):
         self.assertRaises(TypeError, XMLDecoder)
 
     @patch.multiple(XMLDecoder, __abstractmethods__=set())
-    def test_defusedxml_presence(self):
-        self.assertEqual('defusedxml.common', XMLDecoder().parser.__module__)
-
-    @patch.multiple(XMLDecoder, __abstractmethods__=set())
-    @patch.dict(modules, {'defusedxml': None})
-    def test_defusedxml_absence(self):
-        self.assertEqual('xml.etree.ElementTree',
-                         XMLDecoder().parser.__module__)
-
-    @patch.multiple(XMLDecoder, __abstractmethods__=set())
     @patch.multiple(XMLDecoder,
                     root='deck',
                     section='section',
