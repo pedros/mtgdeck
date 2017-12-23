@@ -116,7 +116,6 @@ class XMLEncoder(Encoder):
     @abstractmethod
     def set_content(self, name, card):
         """Set card name in card ``Element``."""
-        pass
 
     def _encode(self, obj):
         root = Element(self.root)
