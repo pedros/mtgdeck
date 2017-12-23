@@ -36,9 +36,12 @@ class MagicOnlineEncoder(Encoder):
 
     def _encode(self, obj):
         out = ''
+        sideboard = False
         for name, attrs in obj:
             if attrs.get('section', False) == 'Sideboard':
-                out += 'Sideboard\n'
+                if not sideboard:
+                    out += 'Sideboard\n'
+                    sideboard = True
             out += '{} {}\n'.format(attrs['count'], name)
         return out
 
