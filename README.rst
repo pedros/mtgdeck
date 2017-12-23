@@ -18,6 +18,10 @@
    :target: https://codeclimate.com/github/pedros/mtgdeck/maintainability
    :alt: Maintainability
 
+.. image:: http://img.shields.io/pypi/v/mtgdeck.svg
+   :target: https://pypi.python.org/pypi/mtgdeck
+   :alt: PyPI version 
+
 mtgdeck
 =======
 
