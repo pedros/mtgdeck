@@ -1,14 +1,22 @@
 .. image:: https://travis-ci.org/pedros/mtgdeck.svg?branch=master
    :target: https://travis-ci.org/pedros/mtgdeck
+   :alt: Linux builds passing
 
 .. image:: https://ci.appveyor.com/api/projects/status/1afabyk0mdbrwsd7?svg=true
    :target: https://ci.appveyor.com/project/pedros/mtgdeck
+   :alt: Windows builds passing
 
 .. image:: https://codecov.io/gh/pedros/mtgdeck/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/pedros/mtgdeck
+   :alt: Coverage
 
 .. image:: https://api.codacy.com/project/badge/Grade/724c2300463b4f639bf406e1bfe1fe10
    :target: https://www.codacy.com/app/pedros/mtgdeck?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pedros/mtgdeck&amp;utm_campaign=Badge_Grade
+   :alt: Grade
+
+.. image:: https://api.codeclimate.com/v1/badges/67254f9c83a1eecb0598/maintainability
+   :target: https://codeclimate.com/github/pedros/mtgdeck/maintainability
+   :alt: Maintainability
 
 mtgdeck
 =======
