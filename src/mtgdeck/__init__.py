@@ -2,13 +2,13 @@
 
 from .decoder import (DecodeError,
                       AutoDecoder,
-                      TextDecoder,
+                      MagicOnlineDecoder,
                       MagicWorkstationDecoder,
                       OCTGNDecoder,
                       CockatriceDecoder)
 
 from .encoder import (EncodeError,
-                      TextEncoder,
+                      MagicOnlineEncoder,
                       MagicWorkstationEncoder,
                       OCTGNEncoder,
                       CockatriceEncoder)
@@ -21,12 +21,12 @@ __all__ = [
     'dump', 'dumps',
     'DecodeError',
     'AutoDecoder',
-    'TextDecoder',
+    'MagicOnlineDecoder',
     'MagicWorkstationDecoder',
     'OCTGNDecoder',
     'CockatriceDecoder',
     'EncodeError',
-    'TextEncoder',
+    'MagicOnlineEncoder',
     'MagicWorkstationEncoder',
     'OCTGNEncoder',
     'CockatriceEncoder',
@@ -55,7 +55,7 @@ def loads(string, cls=AutoDecoder):
     return cls().loads(string)
 
 
-def dump(obj, fp, cls=TextEncoder):
+def dump(obj, fp, cls=MagicOnlineEncoder):
     """Serialize ``obj`` as a MTG decklist formatted stream to ``fp`` (a
     ``.write()``-supporting file-like object).
 
@@ -66,7 +66,7 @@ def dump(obj, fp, cls=TextEncoder):
     return cls().dump(obj, fp)
 
 
-def dumps(obj, cls=TextEncoder):
+def dumps(obj, cls=MagicOnlineEncoder):
     """Serialize ``obj`` to a MTG decklist formatted ``str``.
 
     To use a custom ``Encoder`` subclass, specify it with the ``cls``

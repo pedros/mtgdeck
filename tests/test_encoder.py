@@ -4,7 +4,7 @@ from io import StringIO
 
 from mtgdeck.encoder import (EncodeError,
                              Encoder,
-                             TextEncoder,
+                             MagicOnlineEncoder,
                              MagicWorkstationEncoder,
                              OCTGNEncoder,
                              CockatriceEncoder)
@@ -42,9 +42,9 @@ class TestEncoder(TestCase):
         self.assertEqual(expected, actual)
 
 
-class TestTextEncoder(TestCase):
+class TestMagicOnlineEncoder(TestCase):
     def setUp(self):
-        self.encoder = TextEncoder()
+        self.encoder = MagicOnlineEncoder()
 
     def test__encode(self):
         obj = [('mname', {'count': 2}),

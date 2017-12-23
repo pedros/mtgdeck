@@ -30,7 +30,7 @@ class AutoDecoder(Decoder):
 
     def loads(self, string):
         exceptions = []
-        for cls in (TextDecoder, MagicWorkstationDecoder,
+        for cls in (MagicOnlineDecoder, MagicWorkstationDecoder,
                     OCTGNDecoder, CockatriceDecoder):
             try:
                 return cls().loads(string)
@@ -39,7 +39,7 @@ class AutoDecoder(Decoder):
         raise DecodeError(exceptions)
 
 
-class TextDecoder(Decoder):
+class MagicOnlineDecoder(Decoder):
     def __init__(self):
         self.comment = cppStyleComment
         self.section = Keyword('Sideboard')

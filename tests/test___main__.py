@@ -6,7 +6,7 @@ from sys import (stdin, stdout)
 from argparse import Namespace
 from mtgdeck.__main__ import (action, main, parse_arguments)
 from mtgdeck import (AutoDecoder,
-                     TextEncoder,
+                     MagicOnlineEncoder,
                      MagicWorkstationDecoder,
                      CockatriceEncoder)
 
@@ -35,7 +35,7 @@ class TestClassAction(TestCase):
             ['default', 'text', 'mws', 'cod', 'octgn'],
             encoder_action_obj.choices
         )
-        self.assertEqual(TextEncoder, encoder_action_obj.default)
+        self.assertEqual(MagicOnlineEncoder, encoder_action_obj.default)
 
     def test___call__(self):
         ns = Namespace()
@@ -46,7 +46,7 @@ class TestClassAction(TestCase):
 
         encoder = self.encoder_action(None, 'dest')
         encoder.__call__(None, ns, 'default')
-        self.assertEqual(TextEncoder, ns.dest)
+        self.assertEqual(MagicOnlineEncoder, ns.dest)
 
 
 class TestMain(TestCase):
@@ -77,7 +77,7 @@ class TestMain(TestCase):
 
         args = [
             ([], {'decoder': AutoDecoder,
-                  'encoder': TextEncoder,
+                  'encoder': MagicOnlineEncoder,
                   'input': stdin,
                   'output': stdout}),
             (['-d', 'mws',

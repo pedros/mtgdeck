@@ -25,7 +25,7 @@ class Encoder(metaclass=ABCMeta):
         return self._encode(obj)
 
 
-class TextEncoder(Encoder):
+class MagicOnlineEncoder(Encoder):
     """Encoding class for the simple text format.
 
     This is the format that MTGO outputs. Each line has the form 'quantity
