@@ -37,7 +37,8 @@ setup(
         'Topic :: Text Processing :: Filters',
         'Topic :: Utilities'
     ],
-    install_requires=['pyparsing', 'defusedxml'],
+    install_requires=['pyparsing',
+                      'defusedxml'],
     tests_require=['codecov',
                    'coverage',
                    'pytest-cov',

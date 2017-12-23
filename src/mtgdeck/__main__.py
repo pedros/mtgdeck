@@ -23,7 +23,7 @@ def action(kind):
                     'octgn': mtgdeck.OCTGNEncoder},
     }
 
-    class ClassAction(argparse.Action):
+    class ClassAction(argparse.Action):  # pylint: disable=R0903
         """Map argument string values to a class in module ``kind``.
 
         Set appropriate ``choices`` and ``default`` attributes.
@@ -56,6 +56,7 @@ def parse_arguments(argv):
 
 
 def main(argv=None):
+    """Run a full encode-decode pipeline."""
     args = parse_arguments(argv)
     mtgdeck.dump(mtgdeck.load(args.input, cls=args.decoder),
                  args.output,

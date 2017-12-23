@@ -33,15 +33,15 @@ __all__ = [
 ]
 
 
-def load(fp, cls=AutoDecoder):
-    """Deserialize ``fp`` (a ``.read()``-supporting file-like object containing an
+def load(fin, cls=AutoDecoder):
+    """Deserialize ``fin`` (a ``.read()``-supporting file-like object containing an
     MTG decklist) to a Python object.
 
     To use a custom ``MTGDeckDecoder`` subclass, specify it with the ``cls``
     kwarg; otherwise ``AutoDecoder`` is used.
 
     """
-    return cls().load(fp)
+    return cls().load(fin)
 
 
 def loads(string, cls=AutoDecoder):
@@ -55,15 +55,15 @@ def loads(string, cls=AutoDecoder):
     return cls().loads(string)
 
 
-def dump(obj, fp, cls=MagicOnlineEncoder):
-    """Serialize ``obj`` as a MTG decklist formatted stream to ``fp`` (a
+def dump(obj, fout, cls=MagicOnlineEncoder):
+    """Serialize ``obj`` as a MTG decklist formatted stream to ``fout`` (a
     ``.write()``-supporting file-like object).
 
     To use a custom ``Encoder`` subclass, specify it with the ``cls``
     kwarg; otherwise ``Encoder`` is used.
 
     """
-    return cls().dump(obj, fp)
+    return cls().dump(obj, fout)
 
 
 def dumps(obj, cls=MagicOnlineEncoder):
