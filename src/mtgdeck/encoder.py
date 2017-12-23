@@ -113,9 +113,10 @@ class XMLEncoder(Encoder):
     def count(self):
         """Quantity (ie: qty, number) tag for the XML encoding format."""
 
+    @property
     @abstractmethod
-    def set_content(self, name, card):
-        """Set card name in card ``Element``."""
+    def content(self):
+        """How to set card name in card ``Element`` ('attrib' or 'text')."""
 
     def _encode(self, obj):
         root = Element(self.root)
@@ -135,7 +136,12 @@ class XMLEncoder(Encoder):
                 attrs['setid'] = setid
 
             card = SubElement(sections[section], 'card', attrs)
-            self.set_content(name, card)
+            if self.content == 'text':
+                card.text = name
+            elif self.content == 'attrib':
+                card.attrib['name'] = name
+            else:
+                raise EncodeError('invalid content: "{}"'.format(self.content))
 
         return tostring(root, encoding='unicode')
 
@@ -146,9 +152,7 @@ class OCTGNEncoder(XMLEncoder):
     section = 'section'
     section_name = 'Main'
     count = 'qty'
-
-    def set_content(self, name, card):
-        card.text = name
+    content = 'text'
 
 
 class CockatriceEncoder(XMLEncoder):
@@ -157,6 +161,4 @@ class CockatriceEncoder(XMLEncoder):
     section = 'zone'
     section_name = 'main'
     count = 'number'
-
-    def set_content(self, name, card):
-        card.attrib['name'] = name
+    content = 'attrib'

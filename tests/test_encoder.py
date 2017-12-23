@@ -4,6 +4,7 @@ from io import StringIO
 
 from mtgdeck.encoder import (EncodeError,
                              Encoder,
+                             XMLEncoder,
                              MagicOnlineEncoder,
                              MagicWorkstationEncoder,
                              OCTGNEncoder,
@@ -48,10 +49,16 @@ class TestMagicOnlineEncoder(TestCase):
 
     def test__encode(self):
         obj = [('mname', {'count': 2}),
+               ('sname', {'section': 'Sideboard', 'count': 2}),
                ('sname', {'section': 'Sideboard', 'count': 2})]
 
-        expected = """2 mname\nSideboard\n2 sname\n"""
+        expected = """2 mname\nSideboard\n2 sname\n2 sname\n"""
+        actual = self.encoder._encode(obj)
+        self.assertEqual(expected, actual)
 
+        obj = [('mname', {'count': 2})]
+
+        expected = """2 mname\n"""
         actual = self.encoder._encode(obj)
         self.assertEqual(expected, actual)
 
@@ -72,6 +79,19 @@ SB: 1 sname\nSB: 1 [SETID] sname\n"""
 
         actual = self.encoder._encode(obj)
         self.assertEqual(expected, actual)
+
+
+class TestXMLEncoder(TestCase):
+    def test__set_content(self):
+        class BadXMLEncoder(XMLEncoder):
+            root = 'deck'
+            section = 'section'
+            section_name = 'Main'
+            count = 'qty'
+            content = 'bad value'
+
+        with self.assertRaises(EncodeError):
+            BadXMLEncoder()._encode([('mname', {'count': 1})])
 
 
 class TestOCTGNEncoder(TestCase):

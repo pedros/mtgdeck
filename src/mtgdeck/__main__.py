@@ -7,21 +7,23 @@ import argparse
 import mtgdeck
 
 
+ENCODECS = {
+    'decoder': {'default': mtgdeck.AutoDecoder,
+                'auto': mtgdeck.AutoDecoder,
+                'text': mtgdeck.MagicOnlineDecoder,
+                'mws': mtgdeck.MagicWorkstationDecoder,
+                'cod': mtgdeck.CockatriceDecoder,
+                'octgn': mtgdeck.OCTGNDecoder},
+    'encoder': {'default': mtgdeck.MagicOnlineEncoder,
+                'text': mtgdeck.MagicOnlineEncoder,
+                'mws': mtgdeck.MagicWorkstationEncoder,
+                'cod': mtgdeck.CockatriceEncoder,
+                'octgn': mtgdeck.OCTGNEncoder},
+}
+
+
 def action(kind):
     """Return a ClassAction(argparse.Action) for ``kind``."""
-    encodecs = {
-        'decoder': {'default': mtgdeck.AutoDecoder,
-                    'auto': mtgdeck.AutoDecoder,
-                    'text': mtgdeck.MagicOnlineDecoder,
-                    'mws': mtgdeck.MagicWorkstationDecoder,
-                    'cod': mtgdeck.CockatriceDecoder,
-                    'octgn': mtgdeck.OCTGNDecoder},
-        'encoder': {'default': mtgdeck.MagicOnlineEncoder,
-                    'text': mtgdeck.MagicOnlineEncoder,
-                    'mws': mtgdeck.MagicWorkstationEncoder,
-                    'cod': mtgdeck.CockatriceEncoder,
-                    'octgn': mtgdeck.OCTGNEncoder},
-    }
 
     class ClassAction(argparse.Action):  # pylint: disable=R0903
         """Map argument string values to a class in module ``kind``.
@@ -30,13 +32,13 @@ def action(kind):
 
         """
         def __init__(self, *args, **kwargs):
-            kwargs['choices'] = encodecs[kind].keys()
-            kwargs['default'] = encodecs[kind]['default']
+            kwargs['choices'] = ENCODECS[kind].keys()
+            kwargs['default'] = ENCODECS[kind]['default']
             super(ClassAction, self).__init__(*args, **kwargs)
 
         def __call__(self, parser, namespace, value, option_string=None):
             """Coerce argument value to the appropriate ``kind`` class."""
-            setattr(namespace, self.dest, encodecs[kind][value])
+            setattr(namespace, self.dest, ENCODECS[kind][value])
 
     return ClassAction
 
