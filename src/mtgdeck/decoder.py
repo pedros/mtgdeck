@@ -166,7 +166,7 @@ class XMLDecoder(Decoder):
         tree = parse(StringIO(string))
 
         if tree.getroot().tag != self.root:
-            raise KeyError('Missing a "{}" tag', self.root)
+            raise KeyError('Missing a "{}" tag'.format(self.root))
 
         for section in tree.findall(self.section):
             for entry in section.findall('card'):
