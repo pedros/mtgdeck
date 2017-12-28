@@ -1,7 +1,4 @@
 language: python
-os:
-  - linux
-  - osx
 cache: pip
 matrix:
   include:
