@@ -2,8 +2,8 @@
 from abc import ABCMeta, abstractmethod
 from io import StringIO
 from pyparsing import (Group, Keyword, OneOrMore, Optional, ParseException,
-                       Word, cppStyleComment, empty, nestedExpr, nums,
-                       restOfLine)
+                       ParserElement, Word, cppStyleComment, empty, nestedExpr,
+                       nums, restOfLine)
 from defusedxml.ElementTree import (parse, ParseError)  # pylint: disable=E0401
 
 
@@ -108,6 +108,8 @@ class MagicWorkstationDecoder(Decoder):
 
     def __init__(self):
         """Set a pyparsing grammar."""
+
+        ParserElement.enablePackrat()
 
         self.comment = cppStyleComment
         self.section = Keyword('SB:')
