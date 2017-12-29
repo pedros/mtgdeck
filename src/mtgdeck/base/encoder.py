@@ -1,11 +1,6 @@
+"""Abstract base encoder classes."""
 from abc import ABCMeta, abstractmethod
 from xml.etree.ElementTree import Element, SubElement, tostring  # nosec
-
-
-class EncodeError(Exception):
-    """Format encoding exception."""
-    def __str__(self):
-        return 'Could not determine encoding format: {}'.format(self.args)
 
 
 class Encoder(metaclass=ABCMeta):
@@ -38,6 +33,28 @@ class Encoder(metaclass=ABCMeta):
         return self._encode(obj)
 
 
+class TextEncoder(Encoder):
+    """Abstract base class for text-based encoders.
+
+    Encoders are expected to override the ``encode_entry`` method.
+
+    """
+
+    @abstractmethod
+    def encode_entry(self, name, attrs):
+        """Build and return from ``name`` and ``attrs`` an encoded entry string.
+
+        (``name``, ``attrs``) is a tuple argument (str, dict).
+
+        """
+
+    def _encode(self, obj):
+        out = ''
+        for name, attrs in obj:
+            out += self.encode_entry(name, attrs)
+        return out
+
+
 class XMLEncoder(Encoder):
     """Abstract base class for XML-based encoders.
 
@@ -58,17 +75,23 @@ class XMLEncoder(Encoder):
 
     @property
     @abstractmethod
-    def section_name(self):
-        """Section name(ie: sideboard) tag for the XML encoding format."""
-
-    @property
-    @abstractmethod
     def count(self):
         """Quantity (ie: qty, number) tag for the XML encoding format."""
 
+    @property
     @abstractmethod
-    def set_content(self):
-        """Set card name in card ``Element`` (eg. via 'attrib' or 'text')."""
+    def section_name(self):
+        """Section name(ie: sideboard) tag for the XML encoding format."""
+
+    @abstractmethod
+    def set_content(self, card, name):
+        """Set ``name`` in ``card``.
+
+        ``card`` is an ``ElementTree.Element``, and ``name`` should be set
+        either as an attribute (``card.attribs['key']``) or as the text node
+        (``card.text``).
+
+        """
 
     def _encode(self, obj):
         root = Element(self.root)

@@ -56,7 +56,7 @@ class TextDecoder(Decoder):
     def deck(self):
         """Pyparsing parser that should consume the full input string.
 
-        ``OneOrMore``-wrapped pyparsing parser capable of consuming the full
+        A ``OneOrMore``-wrapped pyparsing parser capable of consuming the full
         input string.
 
         """
@@ -75,10 +75,9 @@ class TextDecoder(Decoder):
         """Decode ``string``, yielding (card name (str), attributes (dict))."""
         entries = self.deck.parseString(string, parseAll=True)
 
-        for entry in entries:
-            parsed_entry = self.decode_entry(entry)
-            if parsed_entry:
-                yield parsed_entry
+        for entry in (self.decode_entry(e) for e in entries):
+            if entry:
+                yield entry
 
 
 class XMLDecoder(Decoder):

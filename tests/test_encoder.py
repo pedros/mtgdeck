@@ -2,12 +2,9 @@ from unittest import TestCase
 from unittest.mock import patch
 from io import StringIO
 
-from mtgdeck.encoder import (EncodeError,
-                             Encoder,
-                             XMLEncoder,
-                             MagicOnlineEncoder,
-                             MagicWorkstationEncoder,
-                             OCTGNEncoder,
+from mtgdeck.base.encoder import (Encoder, TextEncoder, XMLEncoder)
+from mtgdeck.encoder import (EncodeError, MagicOnlineEncoder,
+                             MagicWorkstationEncoder, OCTGNEncoder,
                              CockatriceEncoder)
 
 
@@ -41,6 +38,16 @@ class TestEncoder(TestCase):
         expected = ''
         actual = self.encoder.dumps(obj)
         self.assertEqual(expected, actual)
+
+
+class TestTextEncoder(TestCase):
+    def test__set_content(self):
+        class AnTextEncoder(TextEncoder):
+            def encode_entry(self, card, name):
+                raise EncodeError()
+
+        with self.assertRaises(EncodeError):
+            AnTextEncoder()._encode([('mname', {'count': 1})])
 
 
 class TestMagicOnlineEncoder(TestCase):

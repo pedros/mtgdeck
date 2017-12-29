@@ -1,8 +1,8 @@
 """Decoder implementations for mtgdeck."""
-from .base.decoder import (DecodeError, Decoder, TextDecoder, XMLDecoder)
 from pyparsing import (Group, Keyword, OneOrMore, Optional, ParserElement,
                        Word, cppStyleComment, empty, nestedExpr, nums,
                        restOfLine)
+from .base.decoder import (DecodeError, Decoder, TextDecoder, XMLDecoder)
 ParserElement.enablePackrat()
 
 
@@ -48,6 +48,7 @@ class MagicOnlineDecoder(TextDecoder):
         """Return (card name (str), attributes (dict)) from ``entry``."""
         if len(entry) == 1 and entry[0] == 'Sideboard':
             setattr(self, 'sideboard', True)
+            return None
         else:
             count, card = entry
             attrs = {'count': int(count)}
