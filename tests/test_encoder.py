@@ -83,15 +83,17 @@ SB: 1 sname\nSB: 1 [SETID] sname\n"""
 
 class TestXMLEncoder(TestCase):
     def test__set_content(self):
-        class BadXMLEncoder(XMLEncoder):
+        class AnXMLEncoder(XMLEncoder):
             root = 'deck'
             section = 'section'
             section_name = 'Main'
             count = 'qty'
-            content = 'bad value'
+
+            def set_content(self, card, name):
+                raise EncodeError()
 
         with self.assertRaises(EncodeError):
-            BadXMLEncoder()._encode([('mname', {'count': 1})])
+            AnXMLEncoder()._encode([('mname', {'count': 1})])
 
 
 class TestOCTGNEncoder(TestCase):
