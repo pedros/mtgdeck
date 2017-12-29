@@ -43,7 +43,7 @@ class TestEncoder(TestCase):
 class TestTextEncoder(TestCase):
     def test__set_content(self):
         class AnTextEncoder(TextEncoder):
-            def encode_entry(self, card, name):
+            def encode_entry(self, name, attrs):
                 raise EncodeError()
 
         with self.assertRaises(EncodeError):
