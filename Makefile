@@ -6,7 +6,7 @@ test:
 doc:
 	git checkout gh-pages
 	rm -rf docs src _sources _static _build
-	git checkout psilva/docs docs src
+	git checkout master docs src
 	git reset HEAD
 	sphinx-apidoc -o docs/source src/mtgdeck
 	cd docs; make html
@@ -15,7 +15,7 @@ doc:
 	git add -A
 	git commit -m "Generated gh-pages for `git log master -1 --pretty=short --abbrev-commit`"
 	git push origin gh-pages
-	git checkout psilva/docs
+	git checkout master
 
 release: test
 	bumpversion minor
