@@ -89,9 +89,9 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">mtgdeck</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API</a></li>
 </ul>
 
             
@@ -164,14 +164,7 @@
 <span class="kn">from</span> <span class="nn">defusedxml.ElementTree</span> <span class="k">import</span> <span class="n">parse</span>  <span class="c1"># pylint: disable=E0401</span>
 
 
-<div class="viewcode-block" id="DecodeError"><a class="viewcode-back" href="../../../mtgdeck.base.html#mtgdeck.DecodeError">[docs]</a><span class="k">class</span> <span class="nc">DecodeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Format decoding exception.&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;Could not determine decoding format: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Decoder"><a class="viewcode-back" href="../../../mtgdeck.base.html#mtgdeck.Decoder">[docs]</a><span class="k">class</span> <span class="nc">Decoder</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+<div class="viewcode-block" id="Decoder"><a class="viewcode-back" href="../../../mtgdeck.base.html#mtgdeck.base.decoder.Decoder">[docs]</a><span class="k">class</span> <span class="nc">Decoder</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Abstract base class for decoders.</span>
 
 <span class="sd">    Decoders are expected to implement a single method, ``_decode()``.</span>
@@ -187,14 +180,14 @@
 
         <span class="k">return</span> <span class="p">[]</span>
 
-<div class="viewcode-block" id="Decoder.load"><a class="viewcode-back" href="../../../mtgdeck.base.html#mtgdeck.Decoder.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fin</span><span class="p">):</span>
+<div class="viewcode-block" id="Decoder.load"><a class="viewcode-back" href="../../../mtgdeck.base.html#mtgdeck.base.decoder.Decoder.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fin</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Deserialize ``fin`` (a ``.read()``-supporting file-like object</span>
 <span class="sd">        containing an MTG decklist) to a Python object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">fin</span><span class="o">.</span><span class="n">read</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Decoder.loads"><a class="viewcode-back" href="../../../mtgdeck.base.html#mtgdeck.Decoder.loads">[docs]</a>    <span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+<div class="viewcode-block" id="Decoder.loads"><a class="viewcode-back" href="../../../mtgdeck.base.html#mtgdeck.base.decoder.Decoder.loads">[docs]</a>    <span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Deserialize ``string`` (a ``str``, ``bytes`` or ``bytearray`` instance</span>
 <span class="sd">        containing an MTG decklist) to a Python object.</span>
 
@@ -203,7 +196,7 @@
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decode</span><span class="p">(</span><span class="n">src</span><span class="p">))</span></div></div>
 
 
-<div class="viewcode-block" id="TextDecoder"><a class="viewcode-back" href="../../../mtgdeck.base.html#mtgdeck.TextDecoder">[docs]</a><span class="k">class</span> <span class="nc">TextDecoder</span><span class="p">(</span><span class="n">Decoder</span><span class="p">):</span>
+<div class="viewcode-block" id="TextDecoder"><a class="viewcode-back" href="../../../mtgdeck.base.html#mtgdeck.base.decoder.TextDecoder">[docs]</a><span class="k">class</span> <span class="nc">TextDecoder</span><span class="p">(</span><span class="n">Decoder</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Abstract base class for text-based decoders.</span>
 
 <span class="sd">    Decoders are expected to set the ``deck`` property, and override the</span>
@@ -221,7 +214,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="TextDecoder.decode_entry"><a class="viewcode-back" href="../../../mtgdeck.base.html#mtgdeck.TextDecoder.decode_entry">[docs]</a>    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="TextDecoder.decode_entry"><a class="viewcode-back" href="../../../mtgdeck.base.html#mtgdeck.base.decoder.TextDecoder.decode_entry">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">decode_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Extract and return from ``entry`` a (card name (str), attributes</span>
 <span class="sd">        (dict)).</span>
@@ -240,7 +233,7 @@
                 <span class="k">yield</span> <span class="n">entry</span></div>
 
 
-<div class="viewcode-block" id="XMLDecoder"><a class="viewcode-back" href="../../../mtgdeck.base.html#mtgdeck.XMLDecoder">[docs]</a><span class="k">class</span> <span class="nc">XMLDecoder</span><span class="p">(</span><span class="n">Decoder</span><span class="p">):</span>
+<div class="viewcode-block" id="XMLDecoder"><a class="viewcode-back" href="../../../mtgdeck.base.html#mtgdeck.base.decoder.XMLDecoder">[docs]</a><span class="k">class</span> <span class="nc">XMLDecoder</span><span class="p">(</span><span class="n">Decoder</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Abstract base class for XML-based decoders.</span>
 
 <span class="sd">    Decoders are expected to set the ``root``, ``section`` and ``count``</span>
@@ -274,8 +267,6 @@
             <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">section</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;card&#39;</span><span class="p">):</span>
                 <span class="n">count</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">]</span>
                 <span class="n">card</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">entry</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">card</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">DecodeError</span><span class="p">(</span><span class="s2">&quot;Missing a card entry &#39;name&#39;&quot;</span><span class="p">)</span>
                 <span class="k">yield</span> <span class="n">card</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;section&#39;</span><span class="p">:</span> <span class="n">section</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
                              <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">count</span><span class="p">)}</span></div>
 </pre></div>

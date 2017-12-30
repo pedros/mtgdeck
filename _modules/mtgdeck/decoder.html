@@ -89,9 +89,9 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">mtgdeck</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API</a></li>
 </ul>
 
             
@@ -160,10 +160,19 @@
   <h1>Source code for mtgdeck.decoder</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Decoder implementations for mtgdeck.&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">pyparsing</span> <span class="k">import</span> <span class="p">(</span><span class="n">Group</span><span class="p">,</span> <span class="n">Keyword</span><span class="p">,</span> <span class="n">OneOrMore</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">ParserElement</span><span class="p">,</span>
-                       <span class="n">Word</span><span class="p">,</span> <span class="n">cppStyleComment</span><span class="p">,</span> <span class="n">empty</span><span class="p">,</span> <span class="n">nestedExpr</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span>
-                       <span class="n">restOfLine</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.base.decoder</span> <span class="k">import</span> <span class="p">(</span><span class="n">DecodeError</span><span class="p">,</span> <span class="n">Decoder</span><span class="p">,</span> <span class="n">TextDecoder</span><span class="p">,</span> <span class="n">XMLDecoder</span><span class="p">)</span>
+                       <span class="n">ParseException</span><span class="p">,</span> <span class="n">Word</span><span class="p">,</span> <span class="n">cppStyleComment</span><span class="p">,</span> <span class="n">empty</span><span class="p">,</span>
+                       <span class="n">nestedExpr</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">restOfLine</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">defusedxml.ElementTree</span> <span class="k">import</span> <span class="n">ParseError</span>
+<span class="kn">from</span> <span class="nn">.base.decoder</span> <span class="k">import</span> <span class="p">(</span><span class="n">Decoder</span><span class="p">,</span> <span class="n">TextDecoder</span><span class="p">,</span> <span class="n">XMLDecoder</span><span class="p">)</span>
+
 <span class="n">ParserElement</span><span class="o">.</span><span class="n">enablePackrat</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="DecodeError"><a class="viewcode-back" href="../../mtgdeck.html#mtgdeck.decoder.DecodeError">[docs]</a><span class="k">class</span> <span class="nc">DecodeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Format decoding exception.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;Could not determine decoding format: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="AutoDecoder"><a class="viewcode-back" href="../../mtgdeck.html#mtgdeck.decoder.AutoDecoder">[docs]</a><span class="k">class</span> <span class="nc">AutoDecoder</span><span class="p">(</span><span class="n">Decoder</span><span class="p">):</span>
@@ -188,7 +197,7 @@
                     <span class="n">OCTGNDecoder</span><span class="p">,</span> <span class="n">CockatriceDecoder</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">cls</span><span class="p">()</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="n">ParseError</span><span class="p">,</span> <span class="n">ParseException</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
                 <span class="n">exceptions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_</span><span class="p">))</span>
         <span class="k">raise</span> <span class="n">DecodeError</span><span class="p">(</span><span class="n">exceptions</span><span class="p">)</span></div></div>
 
