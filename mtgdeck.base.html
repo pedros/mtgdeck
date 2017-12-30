@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mtgdeck.base package &mdash; mtgdeck 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="mtgdeck 0.1.0 documentation" href="index.html"/>
+        <link rel="up" title="mtgdeck package" href="mtgdeck.html"/>
+        <link rel="prev" title="mtgdeck package" href="mtgdeck.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> mtgdeck
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">mtgdeck</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="mtgdeck.html">mtgdeck package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="mtgdeck.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">mtgdeck.base package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mtgdeck.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtgdeck.html#module-mtgdeck.decoder">mtgdeck.decoder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtgdeck.html#module-mtgdeck.encoder">mtgdeck.encoder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mtgdeck.html#module-mtgdeck">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">mtgdeck</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">mtgdeck</a> &raquo;</li>
+        
+          <li><a href="mtgdeck.html">mtgdeck package</a> &raquo;</li>
+        
+      <li>mtgdeck.base package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/mtgdeck.base.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mtgdeck-base-package">
+<h1>mtgdeck.base package<a class="headerlink" href="#mtgdeck-base-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-mtgdeck.base.decoder">
+<span id="mtgdeck-base-decoder-module"></span><h2>mtgdeck.base.decoder module<a class="headerlink" href="#module-mtgdeck.base.decoder" title="Permalink to this headline">¶</a></h2>
+<p>Abstract base decoder classes.</p>
+<dl class="exception">
+<dt id="mtgdeck.base.decoder.DecodeError">
+<em class="property">exception </em><code class="descclassname">mtgdeck.base.decoder.</code><code class="descname">DecodeError</code><a class="reference internal" href="_modules/mtgdeck/base/decoder.html#DecodeError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.decoder.DecodeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>Format decoding exception.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mtgdeck.base.decoder.Decoder">
+<em class="property">class </em><code class="descclassname">mtgdeck.base.decoder.</code><code class="descname">Decoder</code><a class="reference internal" href="_modules/mtgdeck/base/decoder.html#Decoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.decoder.Decoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Abstract base class for decoders.</p>
+<p>Decoders are expected to implement a single method, <code class="docutils literal"><span class="pre">_decode()</span></code>.</p>
+<dl class="method">
+<dt id="mtgdeck.base.decoder.Decoder.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>fin</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mtgdeck/base/decoder.html#Decoder.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.decoder.Decoder.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deserialize <code class="docutils literal"><span class="pre">fin</span></code> (a <code class="docutils literal"><span class="pre">.read()</span></code>-supporting file-like object
+containing an MTG decklist) to a Python object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mtgdeck.base.decoder.Decoder.loads">
+<code class="descname">loads</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mtgdeck/base/decoder.html#Decoder.loads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.decoder.Decoder.loads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deserialize <code class="docutils literal"><span class="pre">string</span></code> (a <code class="docutils literal"><span class="pre">str</span></code>, <code class="docutils literal"><span class="pre">bytes</span></code> or <code class="docutils literal"><span class="pre">bytearray</span></code> instance
+containing an MTG decklist) to a Python object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mtgdeck.base.decoder.TextDecoder">
+<em class="property">class </em><code class="descclassname">mtgdeck.base.decoder.</code><code class="descname">TextDecoder</code><a class="reference internal" href="_modules/mtgdeck/base/decoder.html#TextDecoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.decoder.TextDecoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#mtgdeck.base.decoder.Decoder" title="mtgdeck.base.decoder.Decoder"><code class="xref py py-class docutils literal"><span class="pre">mtgdeck.base.decoder.Decoder</span></code></a></p>
+<p>Abstract base class for text-based decoders.</p>
+<p>Decoders are expected to set the <code class="docutils literal"><span class="pre">deck</span></code> property, and override the
+<code class="docutils literal"><span class="pre">decode_entry</span></code> method.</p>
+<dl class="attribute">
+<dt id="mtgdeck.base.decoder.TextDecoder.deck">
+<code class="descname">deck</code><a class="headerlink" href="#mtgdeck.base.decoder.TextDecoder.deck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pyparsing parser that should consume the full input string.</p>
+<p>A <code class="docutils literal"><span class="pre">OneOrMore</span></code>-wrapped pyparsing parser capable of consuming the full
+input string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mtgdeck.base.decoder.TextDecoder.decode_entry">
+<code class="descname">decode_entry</code><span class="sig-paren">(</span><em>entry</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mtgdeck/base/decoder.html#TextDecoder.decode_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.decoder.TextDecoder.decode_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract and return from <code class="docutils literal"><span class="pre">entry</span></code> a (card name (str), attributes
+(dict)).</p>
+<p><code class="docutils literal"><span class="pre">entry</span></code> is a tuple argument (as returned by the <code class="docutils literal"><span class="pre">parseString</span></code>
+method on <code class="docutils literal"><span class="pre">deck</span></code>.)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mtgdeck.base.decoder.XMLDecoder">
+<em class="property">class </em><code class="descclassname">mtgdeck.base.decoder.</code><code class="descname">XMLDecoder</code><a class="reference internal" href="_modules/mtgdeck/base/decoder.html#XMLDecoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.decoder.XMLDecoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#mtgdeck.base.decoder.Decoder" title="mtgdeck.base.decoder.Decoder"><code class="xref py py-class docutils literal"><span class="pre">mtgdeck.base.decoder.Decoder</span></code></a></p>
+<p>Abstract base class for XML-based decoders.</p>
+<p>Decoders are expected to set the <code class="docutils literal"><span class="pre">root</span></code>, <code class="docutils literal"><span class="pre">section</span></code> and <code class="docutils literal"><span class="pre">count</span></code>
+properties.</p>
+<dl class="attribute">
+<dt id="mtgdeck.base.decoder.XMLDecoder.count">
+<code class="descname">count</code><a class="headerlink" href="#mtgdeck.base.decoder.XMLDecoder.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quantity (ie: qty, number) tag for the XML decoding format.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mtgdeck.base.decoder.XMLDecoder.root">
+<code class="descname">root</code><a class="headerlink" href="#mtgdeck.base.decoder.XMLDecoder.root" title="Permalink to this definition">¶</a></dt>
+<dd><p>Root (top-level) tag for the XML decoding format.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mtgdeck.base.decoder.XMLDecoder.section">
+<code class="descname">section</code><a class="headerlink" href="#mtgdeck.base.decoder.XMLDecoder.section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Section (ie: sideboard) tag for the XML decoding format.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mtgdeck.base.encoder">
+<span id="mtgdeck-base-encoder-module"></span><h2>mtgdeck.base.encoder module<a class="headerlink" href="#module-mtgdeck.base.encoder" title="Permalink to this headline">¶</a></h2>
+<p>Abstract base encoder classes.</p>
+<dl class="class">
+<dt id="mtgdeck.base.encoder.Encoder">
+<em class="property">class </em><code class="descclassname">mtgdeck.base.encoder.</code><code class="descname">Encoder</code><a class="reference internal" href="_modules/mtgdeck/base/encoder.html#Encoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.encoder.Encoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Abstract base class for encoders.</p>
+<p>Encoders are expected to implement a single method, <code class="docutils literal"><span class="pre">_encode()</span></code>.</p>
+<dl class="method">
+<dt id="mtgdeck.base.encoder.Encoder.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><em>obj</em>, <em>fout</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mtgdeck/base/encoder.html#Encoder.dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.encoder.Encoder.dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serialize <code class="docutils literal"><span class="pre">obj</span></code> as a MTG decklist formatted stream to <code class="docutils literal"><span class="pre">fout</span></code> (a
+<code class="docutils literal"><span class="pre">.write()</span></code>-supporting file-like object).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mtgdeck.base.encoder.Encoder.dumps">
+<code class="descname">dumps</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mtgdeck/base/encoder.html#Encoder.dumps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.encoder.Encoder.dumps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serialize <code class="docutils literal"><span class="pre">obj</span></code> to a MTG decklist formatted <code class="docutils literal"><span class="pre">str</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mtgdeck.base.encoder.TextEncoder">
+<em class="property">class </em><code class="descclassname">mtgdeck.base.encoder.</code><code class="descname">TextEncoder</code><a class="reference internal" href="_modules/mtgdeck/base/encoder.html#TextEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.encoder.TextEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#mtgdeck.base.encoder.Encoder" title="mtgdeck.base.encoder.Encoder"><code class="xref py py-class docutils literal"><span class="pre">mtgdeck.base.encoder.Encoder</span></code></a></p>
+<p>Abstract base class for text-based encoders.</p>
+<p>Encoders are expected to override the <code class="docutils literal"><span class="pre">encode_entry</span></code> method.</p>
+<dl class="method">
+<dt id="mtgdeck.base.encoder.TextEncoder.encode_entry">
+<code class="descname">encode_entry</code><span class="sig-paren">(</span><em>name</em>, <em>attrs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mtgdeck/base/encoder.html#TextEncoder.encode_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.encoder.TextEncoder.encode_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build and return from <code class="docutils literal"><span class="pre">name</span></code> and <code class="docutils literal"><span class="pre">attrs</span></code> an encoded entry string.</p>
+<p>(<code class="docutils literal"><span class="pre">name</span></code>, <code class="docutils literal"><span class="pre">attrs</span></code>) is a tuple argument (str, dict).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mtgdeck.base.encoder.XMLEncoder">
+<em class="property">class </em><code class="descclassname">mtgdeck.base.encoder.</code><code class="descname">XMLEncoder</code><a class="reference internal" href="_modules/mtgdeck/base/encoder.html#XMLEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.encoder.XMLEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#mtgdeck.base.encoder.Encoder" title="mtgdeck.base.encoder.Encoder"><code class="xref py py-class docutils literal"><span class="pre">mtgdeck.base.encoder.Encoder</span></code></a></p>
+<p>Abstract base class for XML-based encoders.</p>
+<p>Encoders are expected to set the <code class="docutils literal"><span class="pre">root</span></code>, <code class="docutils literal"><span class="pre">section</span></code>, <code class="docutils literal"><span class="pre">section_name</span></code>
+and <code class="docutils literal"><span class="pre">count</span></code> properties, and the <code class="docutils literal"><span class="pre">set_content</span></code> method.</p>
+<dl class="attribute">
+<dt id="mtgdeck.base.encoder.XMLEncoder.count">
+<code class="descname">count</code><a class="headerlink" href="#mtgdeck.base.encoder.XMLEncoder.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quantity (ie: qty, number) tag for the XML encoding format.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mtgdeck.base.encoder.XMLEncoder.root">
+<code class="descname">root</code><a class="headerlink" href="#mtgdeck.base.encoder.XMLEncoder.root" title="Permalink to this definition">¶</a></dt>
+<dd><p>Root (top-level) tag for the XML encoding format.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mtgdeck.base.encoder.XMLEncoder.section">
+<code class="descname">section</code><a class="headerlink" href="#mtgdeck.base.encoder.XMLEncoder.section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Section (ie: sideboard, etc) tag for the XML encoding format.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mtgdeck.base.encoder.XMLEncoder.section_name">
+<code class="descname">section_name</code><a class="headerlink" href="#mtgdeck.base.encoder.XMLEncoder.section_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Section name(ie: sideboard) tag for the XML encoding format.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mtgdeck.base.encoder.XMLEncoder.set_content">
+<code class="descname">set_content</code><span class="sig-paren">(</span><em>card</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mtgdeck/base/encoder.html#XMLEncoder.set_content"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mtgdeck.base.encoder.XMLEncoder.set_content" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set <code class="docutils literal"><span class="pre">name</span></code> in <code class="docutils literal"><span class="pre">card</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">card</span></code> is an <code class="docutils literal"><span class="pre">ElementTree.Element</span></code>, and <code class="docutils literal"><span class="pre">name</span></code> should be set
+either as an attribute (<code class="docutils literal"><span class="pre">card.attribs['key']</span></code>) or as the text node
+(<code class="docutils literal"><span class="pre">card.text</span></code>).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mtgdeck.base">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mtgdeck.base" title="Permalink to this headline">¶</a></h2>
+<p>Abstract base classes.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="mtgdeck.html" class="btn btn-neutral" title="mtgdeck package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Pedro Silva.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

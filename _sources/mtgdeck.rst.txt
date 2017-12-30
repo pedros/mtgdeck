@@ -1,0 +1,37 @@
+mtgdeck package
+===============
+
+Subpackages
+-----------
+
+.. toctree::
+
+    mtgdeck.base
+
+Submodules
+----------
+
+mtgdeck\.decoder module
+-----------------------
+
+.. automodule:: mtgdeck.decoder
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+mtgdeck\.encoder module
+-----------------------
+
+.. automodule:: mtgdeck.encoder
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: mtgdeck
+    :members:
+    :undoc-members:
+    :show-inheritance:

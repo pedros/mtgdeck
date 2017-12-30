@@ -1,0 +1,7 @@
+mtgdeck
+=======
+
+.. toctree::
+   :maxdepth: 4
+
+   mtgdeck

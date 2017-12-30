@@ -1,0 +1,299 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mtgdeck &mdash; mtgdeck 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="mtgdeck 0.1.0 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> mtgdeck
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">mtgdeck</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">mtgdeck</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>mtgdeck</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mtgdeck</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Public API entry-point for mtgdeck.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.decoder</span> <span class="k">import</span> <span class="p">(</span><span class="n">DecodeError</span><span class="p">,</span>
+                      <span class="n">AutoDecoder</span><span class="p">,</span>
+                      <span class="n">MagicOnlineDecoder</span><span class="p">,</span>
+                      <span class="n">MagicWorkstationDecoder</span><span class="p">,</span>
+                      <span class="n">OCTGNDecoder</span><span class="p">,</span>
+                      <span class="n">CockatriceDecoder</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.encoder</span> <span class="k">import</span> <span class="p">(</span><span class="n">EncodeError</span><span class="p">,</span>
+                      <span class="n">MagicOnlineEncoder</span><span class="p">,</span>
+                      <span class="n">MagicWorkstationEncoder</span><span class="p">,</span>
+                      <span class="n">OCTGNEncoder</span><span class="p">,</span>
+                      <span class="n">CockatriceEncoder</span><span class="p">)</span>
+
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.1.0&#39;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Pedro Silva &lt;psilva+git@pedrosilva.pt&gt;&#39;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="s1">&#39;loads&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dump&#39;</span><span class="p">,</span> <span class="s1">&#39;dumps&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DecodeError&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;AutoDecoder&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;MagicOnlineDecoder&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;MagicWorkstationDecoder&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;OCTGNDecoder&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;CockatriceDecoder&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;EncodeError&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;MagicOnlineEncoder&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;MagicWorkstationEncoder&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;OCTGNEncoder&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;CockatriceEncoder&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="load"><a class="viewcode-back" href="../mtgdeck.html#mtgdeck.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">fin</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">AutoDecoder</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Deserialize ``fin`` (a ``.read()``-supporting file-like object containing an</span>
+<span class="sd">    MTG decklist) to a Python object.</span>
+
+<span class="sd">    To use a custom ``MTGDeckDecoder`` subclass, specify it with the ``cls``</span>
+<span class="sd">    kwarg; otherwise ``AutoDecoder`` is used.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fin</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="loads"><a class="viewcode-back" href="../mtgdeck.html#mtgdeck.loads">[docs]</a><span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">AutoDecoder</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Deserialize ``string`` (a ``str``, ``bytes`` or ``bytearray`` instance</span>
+<span class="sd">    containing an MTG decklist) to a Python object.</span>
+
+<span class="sd">    To use a custom ``MTGDeckDecoder`` subclass, specify it with the ``cls``</span>
+<span class="sd">    kwarg; otherwise ``AutoDecoder`` is used.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="p">()</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">string</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="dump"><a class="viewcode-back" href="../mtgdeck.html#mtgdeck.dump">[docs]</a><span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">fout</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">MagicOnlineEncoder</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Serialize ``obj`` as a MTG decklist formatted stream to ``fout`` (a</span>
+<span class="sd">    ``.write()``-supporting file-like object).</span>
+
+<span class="sd">    To use a custom ``Encoder`` subclass, specify it with the ``cls``</span>
+<span class="sd">    kwarg; otherwise ``Encoder`` is used.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="p">()</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">fout</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="dumps"><a class="viewcode-back" href="../mtgdeck.html#mtgdeck.dumps">[docs]</a><span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">MagicOnlineEncoder</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Serialize ``obj`` to a MTG decklist formatted ``str``.</span>
+
+<span class="sd">    To use a custom ``Encoder`` subclass, specify it with the ``cls``</span>
+<span class="sd">    kwarg; otherwise ``Encoder`` is used.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="p">()</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Pedro Silva.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

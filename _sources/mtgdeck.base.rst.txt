@@ -1,0 +1,30 @@
+mtgdeck\.base package
+=====================
+
+Submodules
+----------
+
+mtgdeck\.base\.decoder module
+-----------------------------
+
+.. automodule:: mtgdeck.base.decoder
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+mtgdeck\.base\.encoder module
+-----------------------------
+
+.. automodule:: mtgdeck.base.encoder
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: mtgdeck.base
+    :members:
+    :undoc-members:
+    :show-inheritance:
