@@ -1,9 +1,18 @@
 """Decoder implementations for mtgdeck."""
 from pyparsing import (Group, Keyword, OneOrMore, Optional, ParserElement,
-                       Word, cppStyleComment, empty, nestedExpr, nums,
-                       restOfLine)
-from .base.decoder import (DecodeError, Decoder, TextDecoder, XMLDecoder)
+                       ParseException, Word, cppStyleComment, empty,
+                       nestedExpr, nums, restOfLine)
+from defusedxml.ElementTree import ParseError
+from .base.decoder import (Decoder, TextDecoder, XMLDecoder)
+
 ParserElement.enablePackrat()
+
+
+class DecodeError(Exception):
+    """Format decoding exception."""
+
+    def __str__(self):
+        return 'Could not determine decoding format: {}'.format(self.args)
 
 
 class AutoDecoder(Decoder):
@@ -28,7 +37,7 @@ class AutoDecoder(Decoder):
                     OCTGNDecoder, CockatriceDecoder):
             try:
                 return cls().loads(string)
-            except Exception as _:
+            except (KeyError, ParseError, ParseException) as _:
                 exceptions.append((cls, _))
         raise DecodeError(exceptions)
 

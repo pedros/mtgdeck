@@ -4,13 +4,6 @@ from io import StringIO
 from defusedxml.ElementTree import parse  # pylint: disable=E0401
 
 
-class DecodeError(Exception):
-    """Format decoding exception."""
-
-    def __str__(self):
-        return 'Could not determine decoding format: {}'.format(self.args)
-
-
 class Decoder(metaclass=ABCMeta):
     """Abstract base class for decoders.
 
@@ -114,7 +107,5 @@ class XMLDecoder(Decoder):
             for entry in section.findall('card'):
                 count = entry.attrib[self.count]
                 card = entry.attrib.get('name', entry.text)
-                if not card:
-                    raise DecodeError("Missing a card entry 'name'")
                 yield card, {'section': section.attrib['name'],
                              'count': int(count)}

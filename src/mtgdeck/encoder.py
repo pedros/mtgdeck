@@ -1,5 +1,4 @@
 """Encoder implementations for mtgdeck."""
-
 from .base.encoder import (TextEncoder, XMLEncoder)
 
 

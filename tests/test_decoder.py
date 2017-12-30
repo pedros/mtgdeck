@@ -145,7 +145,7 @@ class TestXMLDecoder(TestCase):
     def test__decode(self):
         decoder = XMLDecoder()
         dec = decoder._decode
-        with self.assertRaises(DecodeError):
+        with self.assertRaises(KeyError):
             list(dec('<deck><section><card qty="1"></card></section></deck>'))
 
 
