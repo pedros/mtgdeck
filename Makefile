@@ -5,7 +5,7 @@ test:
 
 doc:
 	git checkout gh-pages
-	rm -rf docs src _sources _static
+	rm -rf docs src _sources _static _build
 	git checkout psilva/docs docs src
 	git reset HEAD
 	sphinx-apidoc -o docs/source src/mtgdeck
