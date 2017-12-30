@@ -5,12 +5,13 @@ test:
 
 doc:
 	git checkout gh-pages
-	rm -rf docs _sources _static
-	git checkout psilva/docs docs
+	rm -rf docs src _sources _static
+	git checkout psilva/docs docs src
 	git reset HEAD
+	sphinx-apidoc -o docs/source src/mtgdeck
 	cd docs; make html
 	mv -fv docs/build/html/* ./
-	rm -rf docs
+	rm -rf docs src
 	git add -A
 	git commit -m "Generated gh-pages for `git log master -1 --pretty=short --abbrev-commit`"
 	git push origin gh-pages
