@@ -6,6 +6,7 @@ test:
 doc:
 	git checkout gh-pages
 	rm -rf docs src _sources _static _build _modules
+	git clean -dfx
 	git checkout master docs src
 	git reset HEAD
 	sphinx-apidoc -o docs/source src/mtgdeck
