@@ -14,7 +14,7 @@ from .encoder import (EncodeError,
                       CockatriceEncoder)
 
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 __author__ = 'Pedro Silva <psilva+git@pedrosilva.pt>'
 __all__ = [
     'load', 'loads',
