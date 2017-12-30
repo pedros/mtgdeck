@@ -42,12 +42,13 @@ class TestEncoder(TestCase):
 
 class TestTextEncoder(TestCase):
     def test__set_content(self):
-        class AnTextEncoder(TextEncoder):
+        class ATextEncoder(TextEncoder):
             def encode_entry(self, name, attrs):
+                self.name = name
                 raise EncodeError()
 
         with self.assertRaises(EncodeError):
-            AnTextEncoder()._encode([('mname', {'count': 1})])
+            ATextEncoder()._encode([('mname', {'count': 1})])
 
 
 class TestMagicOnlineEncoder(TestCase):
@@ -97,6 +98,7 @@ class TestXMLEncoder(TestCase):
             count = 'qty'
 
             def set_content(self, card, name):
+                self.name = name
                 raise EncodeError()
 
         with self.assertRaises(EncodeError):
