@@ -1,3 +1,6 @@
+mtgdeck
+=======
+
 .. image:: https://travis-ci.org/pedros/mtgdeck.svg?branch=master
    :target: https://travis-ci.org/pedros/mtgdeck
    :alt: Linux builds passing
@@ -21,9 +24,6 @@
 .. image:: http://img.shields.io/pypi/v/mtgdeck.svg
    :target: https://pypi.python.org/pypi/mtgdeck
    :alt: PyPI version 
-
-mtgdeck
-=======
 
 MTG decklist decoder and encoder library and application
 
