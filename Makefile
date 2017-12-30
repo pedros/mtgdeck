@@ -5,7 +5,7 @@ test:
 
 doc:
 	git checkout gh-pages
-	rm -rf docs
+	rm -rf docs _sources _static
 	git checkout psilva/docs docs
 	git reset HEAD
 	cd docs; make html
