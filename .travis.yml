@@ -9,9 +9,16 @@ matrix:
     - python: 3.6
       env: TOXENV=py36
 install:
-  - pip install tox codecov
+  - pip install tox codecov sphinx sphinx_rtd_theme
 script:
   - tox
-
+  - cd docs
+  - make html
 after_success:
   - codecov
+jobs:
+  include:
+    - stage: deploy
+      script: make doc
+      python: 3.6
+      env: TOXENV=py36
