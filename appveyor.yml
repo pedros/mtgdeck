@@ -8,6 +8,10 @@ environment:
       TOXENV: "py35"
     - PYTHON: "C:\\Python36"
       TOXENV: "py36"
+    - PYTHON: "C:\\Python36"
+      TOXENV: "docs"
+    - PYTHON: "C:\\Python36"
+      TOXENV: "lint"
 
 install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
