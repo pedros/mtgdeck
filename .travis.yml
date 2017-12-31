@@ -1,5 +1,7 @@
 language: python
+
 cache: pip
+
 matrix:
   include:
     - python: 3.4
@@ -8,16 +10,20 @@ matrix:
       env: TOXENV=py35
     - python: 3.6
       env: TOXENV=py36
+
 install:
   - pip install tox codecov sphinx sphinx_rtd_theme
-script:
-  - tox
-  - cd docs
-  - make html
-after_success:
-  - codecov
+
 jobs:
   include:
+    - stage: test
+      script:
+        - tox
+        - cd docs
+        - make html
+      after_success:
+        - codecov
+
     - stage: deploy
       script: make doc
       python: 3.6
