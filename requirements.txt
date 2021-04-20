@@ -16,7 +16,7 @@ MarkupSafe==1.0
 mccabe==0.6.1
 pep8==1.7.1
 pluggy==0.6.0
-py==1.5.2
+py==1.10.0
 Pygments==2.2.0
 pyparsing==2.2.0
 pytest==3.3.1
